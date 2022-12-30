@@ -7,7 +7,7 @@
     margin: 0%;
     padding: 0%;
 }
-header div{
+.container div{
     background-color: var(--mycolor);
     width: var(--width);
     display: flex;
@@ -24,13 +24,6 @@ header div{
 main{
     display: flex;
     flex-wrap: nowrap;
-}
-main div{
-    background-color: var(--mycolor);
-    width: var(--width);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: var(--height);
 }
 .nav{
@@ -43,12 +36,7 @@ main div{
 .sidebar{
     width:15%;
 }
-footer{
-    background-color: var(--mycolor);
-    width: var(--width);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+footer div{
     height: 65px;
     margin-top: 20px;
 }
