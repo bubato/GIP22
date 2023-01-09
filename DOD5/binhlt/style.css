@@ -1,0 +1,108 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+.container {
+    max-width: 1400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-gap: 15px;
+    width: 100%;
+}
+.logo {
+    background-color: pink;
+    height: 100px;
+}
+.title {
+    background-color: rgb(58, 145, 164);
+    height: 100px;
+}
+.nav {
+    background-color: rgb(0, 255, 145);
+    height: 100%;
+}
+.content {
+    display: grid;
+    grid: repeat(15, 150px) / auto-flow;
+    grid-gap: 15px;
+}
+.item:nth-child(1) {
+    background-color: palevioletred;
+    grid-column-start: span 2;
+    grid-row-end: span 2;
+}
+.item {
+    background-color: gray;
+    width: 100%;
+    height: 100%;
+    min-width: 150px;
+    overflow: hidden;
+    position: relative;
+}
+img:hover{
+    transform: scale(1.25);
+    transition: ease-in-out 0.5s;
+}
+.item-body{
+    background-color: rgb(228, 228, 228);
+}
+@media screen and (max-width: 769px) {
+    .container {
+        display: grid;
+        grid-template-columns:1fr 1fr ;
+        grid-gap: 20px;
+    }
+    div#nav {order: 2;}
+    div#content{order: 4;}
+    div#logo {order: 1;}
+    div#title {order: 3;}
+    .logo{
+        width:70%
+    }
+    .nav {
+        height: 100px;
+        width: 40%;
+        margin-left:60%
+    }
+    .title{
+        display: grid;
+        grid-column-start: span 2;
+    }
+    .content{
+        display: grid;
+        grid: repeat(44, 150px) / auto-flow;
+        grid-column-start: span 2;
+    }
+}
+@media screen and (max-width: 391px) {
+    .container {
+        display: grid;
+        grid-template-columns:1fr 1fr ;
+        grid-gap: 15px;
+    }
+    div#nav {order: 2;}
+    div#content{order: 4;}
+    div#logo {order: 3;}
+    div#title {order: 1;}
+    .logo{
+        display: grid;
+        grid-column-start: span 2;
+        width: 100%;
+    }
+    .title{
+        display: grid;
+        grid-column-start: span 1;
+        width: 170%;
+    }
+    .content{
+        display: grid;
+        grid: repeat(85, 250px) / auto-flow;
+        grid-column-start: span 2;
+    }
+    .item{
+        display: grid;
+        grid-column-start: span 2;
+        grid-column-end: span 2;
+    }
+}
