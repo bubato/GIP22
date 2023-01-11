@@ -1,15 +1,4 @@
 
-// fetch('https://63b4064dea89e3e3db541190.mockapi.io/avatar')
-//     .then(response => response.json())
-//     .then((data) => {
-//         console.log(data)
-//         data.map((item) => {
-//             document.getElementById('item').innerHTML = item.name
-//             document.getElementById('item').innerHTML = item.id
-//         })
-//     })
-//     .catch(error => console.error(error))
-
 const content = document.getElementById('content');
 async function getData() {
     try {
