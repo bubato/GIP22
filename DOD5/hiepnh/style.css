@@ -46,8 +46,6 @@
 }
 .menu {
   grid-area: menu;
-  /* position: sticky;
-  margin-top: 1rem; */
 }
 .content {
   grid-area: content;

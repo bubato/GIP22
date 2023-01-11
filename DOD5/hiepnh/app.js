@@ -3,9 +3,7 @@ const link = "https://63b4064dea89e3e3db541190.mockapi.io/avatar";
 const getData = async () => {
   const res = await fetch(link).then((res) => res.json());
   res?.map((item) => {
-    // if (item?.id <= 15) {
-    //   return imageTemplate(item);
-    // }
+
     return imageTemplate(item);
   });
 };
