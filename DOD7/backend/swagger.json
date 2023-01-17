@@ -1,0 +1,847 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Swagger GIP 2022",
+		"version": "1.0.11"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:5000/api-docs"
+		}
+	],
+	"paths": {
+		"/document": {
+			"put": {
+				"tags": [
+					"document"
+				],
+				"summary": "Update an existing document",
+				"description": "Update an existing document by Id",
+				"operationId": "updatedocument",
+				"requestBody": {
+					"description": "Update an existent document in the position",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "document not found"
+					},
+					"405": {
+						"description": "Validation exception"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"document"
+				],
+				"summary": "Add a new document to the position",
+				"description": "Add a new document to the position",
+				"operationId": "adddocument",
+				"requestBody": {
+					"description": "Create a new document in the position",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/document"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							}
+						}
+					},
+					"405": {
+						"description": "Invalid input"
+					}
+				}
+			},
+			"get": {
+				"tags": [
+					"document"
+				],
+				"summary": "Finds documents by tags",
+				"description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+				"operationId": "finddocumentsByTags",
+				"parameters": [
+					{
+						"name": "keyword",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "pageIndex",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/document"
+									}
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/document"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid tag value"
+					}
+				}
+			}
+		},
+		"/document/{documentId}": {
+			"get": {
+				"tags": [
+					"document"
+				],
+				"summary": "Find document by ID",
+				"description": "Returns a single document",
+				"operationId": "getdocumentById",
+				"parameters": [
+					{
+						"name": "documentId",
+						"in": "path",
+						"description": "ID of document to return",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/document"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "document not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"document"
+				],
+				"summary": "Deletes a document",
+				"description": "delete a document",
+				"operationId": "deletedocument",
+				"parameters": [
+					{
+						"name": "documentId",
+						"in": "path",
+						"description": "document id to delete",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"400": {
+						"description": "Invalid document value"
+					}
+				}
+			}
+		},
+		"/position": {
+			"put": {
+				"tags": [
+					"position"
+				],
+				"summary": "Update an existing position",
+				"description": "Update an existing position by Id",
+				"operationId": "updateposition",
+				"requestBody": {
+					"description": "Update an existent position in the position",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "position not found"
+					},
+					"405": {
+						"description": "Validation exception"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"position"
+				],
+				"summary": "Add a new position to the position",
+				"description": "Add a new position to the position",
+				"operationId": "addposition",
+				"requestBody": {
+					"description": "Create a new position in the position",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/position"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							}
+						}
+					},
+					"405": {
+						"description": "Invalid input"
+					}
+				}
+			},
+			"get": {
+				"tags": [
+					"position"
+				],
+				"summary": "Finds positions by tags",
+				"description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+				"operationId": "findpositionsByTags",
+				"parameters": [
+					{
+						"name": "keyword",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "pageIndex",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/position"
+									}
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/position"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid tag value"
+					}
+				}
+			}
+		},
+		"/position/{positionId}": {
+			"get": {
+				"tags": [
+					"position"
+				],
+				"summary": "Find position by ID",
+				"description": "Returns a single position",
+				"operationId": "getpositionById",
+				"parameters": [
+					{
+						"name": "positionId",
+						"in": "path",
+						"description": "ID of position to return",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/position"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "position not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"position"
+				],
+				"summary": "Deletes a position",
+				"description": "delete a position",
+				"operationId": "deleteposition",
+				"parameters": [
+					{
+						"name": "positionId",
+						"in": "path",
+						"description": "position id to delete",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"400": {
+						"description": "Invalid position value"
+					}
+				}
+			}
+		},
+		"/user": {
+			"put": {
+				"tags": [
+					"user"
+				],
+				"summary": "Update an existing user",
+				"description": "Update an existing user by Id",
+				"operationId": "updateuser",
+				"requestBody": {
+					"description": "Update an existent user in the user",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "user not found"
+					},
+					"405": {
+						"description": "Validation exception"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"user"
+				],
+				"summary": "Add a new user to the user",
+				"description": "Add a new user to the user",
+				"operationId": "adduser",
+				"requestBody": {
+					"description": "Create a new user in the user",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/user"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							}
+						}
+					},
+					"405": {
+						"description": "Invalid input"
+					}
+				}
+			},
+			"get": {
+				"tags": [
+					"user"
+				],
+				"summary": "Finds users by tags",
+				"description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+				"operationId": "findusersByTags",
+				"parameters": [
+					{
+						"name": "keyword",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "pageIndex",
+						"in": "query",
+						"required": false,
+						"explode": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/user"
+									}
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/user"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid tag value"
+					}
+				}
+			}
+		},
+		"/user/{userId}": {
+			"get": {
+				"tags": [
+					"user"
+				],
+				"summary": "Find user by ID",
+				"description": "Returns a single user",
+				"operationId": "getuserById",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "path",
+						"description": "ID of user to return",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							},
+							"application/xml": {
+								"schema": {
+									"$ref": "#/components/schemas/user"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid ID supplied"
+					},
+					"404": {
+						"description": "user not foundrs"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"user"
+				],
+				"summary": "Deletes a user",
+				"description": "delete a user",
+				"operationId": "deleteuser",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "path",
+						"description": "user id to delete",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"400": {
+						"description": "Invalid user value"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"document": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "string"
+					},
+					"name": {
+						"type": "string",
+						"example": "string"
+					},
+					"link": {
+						"type": "string",
+						"example": "string"
+					},
+					"owner": {
+						"type": "string",
+						"example": "string"
+					},
+					"thumbnailLink": {
+						"type": "string",
+						"example": "string"
+					},
+					"type": {
+						"type": "string",
+						"example": "string"
+					},
+					"createAt": {
+						"type": "string",
+						"example": "string"
+					},
+					"updateAt": {
+						"type": "string",
+						"example": "string"
+					}
+				},
+				"xml": {
+					"name": "order"
+				}
+			},
+			"position": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "string"
+					},
+					"name": {
+						"type": "string",
+						"example": "string"
+					},
+					"level": {
+						"type": "string",
+						"example": "string"
+					},
+					"createAt": {
+						"type": "string",
+						"example": "string"
+					},
+					"updateAt": {
+						"type": "string",
+						"example": "string"
+					}
+				},
+				"xml": {
+					"name": "order"
+				}
+			},
+			"user": {
+				"type": "object",
+				"properties": {
+					"_id": {
+						"type": "string",
+						"example": "string"
+					},
+					"fullName": {
+						"type": "string",
+						"example": "string"
+					},
+					"code": {
+						"type": "string",
+						"example": "string"
+					},
+					"position": {
+						"type": "string",
+						"example": "string"
+					},
+					"email": {
+						"type": "string",
+						"example": "string"
+					},
+					"telephone": {
+						"type": "string",
+						"example": "string"
+					},
+					"gender": {
+						"type": "string",
+						"example": "string"
+					},
+					"createAt": {
+						"type": "string",
+						"example": "string"
+					},
+					"updateAt": {
+						"type": "string",
+						"example": "string"
+					}
+				},
+				"xml": {
+					"name": "order"
+				}
+			}
+		}
+	}
+}
