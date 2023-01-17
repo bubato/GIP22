@@ -84,11 +84,11 @@ function UserInput({ type, user, id, userList, setUserList }) {
             {arrSex.map((item) => {
               return (
                 <option
-                  value={item?.value}
+                  value={item.value}
                   key={item.id}
-                  selected={gender === item?.value ? true : ""}
+                  selected={gender === item.value ? true : ""}
                 >
-                  {item?.value}
+                  {item.value}
                 </option>
               );
             })}
