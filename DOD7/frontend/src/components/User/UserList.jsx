@@ -16,19 +16,19 @@ function UserList({ userList, setUserList }) {
         <table>
           <tr>
             <th>STT</th>
-            <th>Name</th>
-            <th>Sex</th>
+            <th>Full Name</th>
+            <th>Gender</th>
             <th>Email</th>
-            <th>Position</th>
+            <th>Posision</th>
           </tr>
           {userList.map((item, index) => {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item?.name}</td>
-                <td>{item?.sex}</td>
+                <td>{item?.fullname}</td>
+                <td>{item?.gender}</td>
                 <td>{item?.email}</td>
-                <td>{item?.position}</td>
+                <td>{item?.posision}</td>
                 <BtnRD id={item?.id} data={userList} setData={setUserList} />
               </tr>
             );

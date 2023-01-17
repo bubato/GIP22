@@ -1,8 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 function Input({ label, input, setInput, typeInput = "text" }) {
   return (
-    <Wrapper>
+    <div>
       <label htmlFor="" className="label_info">
         {label} :
       </label>
@@ -15,13 +14,8 @@ function Input({ label, input, setInput, typeInput = "text" }) {
         minLength={5}
         onChange={(e) => setInput(e.target.value)}
       />
-    </Wrapper>
+    </div>
   );
 }
-const Wrapper = styled.div`
-  /* label {
-    display: inline-block;
-    margin-bottom: 2rem;
-  } */
-`;
+
 export default Input;

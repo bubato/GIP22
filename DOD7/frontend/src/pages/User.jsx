@@ -5,10 +5,13 @@ function User() {
   const [userList, setUserList] = useState([
     {
       id: "1",
-      name: "Huy Hiep",
-      sex: "Nam",
+      fullname: "Huy Hiep",
+      code: "A34729",
+      posision: "Boss",
       email: "hiepnh.fk@gmail.com",
-      position: "Boss",
+      telephone: "0359196312",
+      gender: "Nam",
+      address: "Thái Bình",
     },
   ]);
 

@@ -4,10 +4,13 @@ import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 
 function UserInput({ type, user, id, userList, setUserList }) {
-  const [name, setName] = useState(user?.name || "");
-  const [sex, setSex] = useState(user?.sex || "");
+  const [fullname, setFullName] = useState(user?.name || "");
+  const [code, setCode] = useState(user?.code || "");
+  const [posision, setPosision] = useState(user?.posision || "");
   const [email, setEmail] = useState(user?.email || "");
-  const [position, setPosition] = useState(user?.position || "");
+  const [telephone, setTelephone] = useState(user?.telephone || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [address, setAddress] = useState(user?.address || "");
 
   const arrSex = [
     { id: 1, value: "Nam" },
@@ -18,7 +21,16 @@ function UserInput({ type, user, id, userList, setUserList }) {
 
   const handeSubmit = (e) => {
     e.preventDefault();
-    const user = { name, sex, email, position, id: new Date().toISOString() };
+    const user = {
+      fullname,
+      code,
+      posision,
+      email,
+      telephone,
+      gender,
+      address,
+      id: new Date().toISOString(),
+    };
     if (type === "new") {
       setUserList([...userList, user]);
       navigate("/users");
@@ -34,34 +46,47 @@ function UserInput({ type, user, id, userList, setUserList }) {
   };
 
   useEffect(() => {
-    setName(user?.name);
-    setSex(user?.sex);
+    setFullName(user?.fullname);
+    setCode(user?.code);
+    setPosision(user?.posision);
     setEmail(user?.email);
-    setPosition(user?.position);
-  }, [user?.email, user?.name, user?.position, user?.sex]);
+    setTelephone(user?.telephone);
+    setGender(user?.gender);
+    setAddress(user?.address);
+  }, [user]);
 
   return (
     <Wrapper>
       <h1>{type === "new" ? "Add new user" : "Detail user"}</h1>
       <form action="">
-        <Input label="Name" input={name} setInput={setName} />
-        {/* <Input label="Sex" input={sex} setInput={setSex} /> */}
+        <Input label="Name" input={fullname} setInput={setFullName} />
+        <Input label="Code" input={code} setInput={setCode} />
+        <Input label="Posision" input={posision} setInput={setPosision} />
+        <Input
+          label="Email"
+          input={email}
+          setInput={setEmail}
+          typeInput="email"
+        />
+        <Input label="Telephone" input={telephone} setInput={setTelephone} />
+        <Input label="Address" input={address} setInput={setAddress} />
+
         <div>
           <label htmlFor="" className="label_info">
-            Sex :
+            Gender :
           </label>
           <select
             name=""
             id=""
             className="input_info"
-            onChange={(e) => setSex(e.target.value)}
+            onChange={(e) => setGender(e.target.value)}
           >
             {arrSex.map((item) => {
               return (
                 <option
                   value={item?.value}
                   key={item.id}
-                  selected={sex === item?.value ? true : ""}
+                  selected={gender === item?.value ? true : ""}
                 >
                   {item?.value}
                 </option>
@@ -69,13 +94,6 @@ function UserInput({ type, user, id, userList, setUserList }) {
             })}
           </select>
         </div>
-        <Input
-          label="Email"
-          input={email}
-          setInput={setEmail}
-          typeInput="email"
-        />
-        <Input label="Postion" input={position} setInput={setPosition} />
         <button className="btn_add" onClick={handeSubmit}>
           {type === "new" ? "Create new user" : "Update user"}
         </button>
