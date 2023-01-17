@@ -15,7 +15,7 @@ const CreatePosition = ({positionList, setPositionList}) => {
     const [position,setPosition] = useState('');
     const handleSubmit = () => {
         if(position.length > 5 && lever !== ''){
-            const id = positionList.length + 1
+            const id = new Date().toISOString()
             const data = ({id,position,lever})
             setPositionList([...positionList,data])
         }
