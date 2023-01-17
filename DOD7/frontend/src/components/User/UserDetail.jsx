@@ -10,7 +10,7 @@ function UserDetail({ userList, setUserList, type }) {
   };
   useEffect(() => {
     getUser();
-  }, [id, getUser]);
+  }, [id]);
   return (
     <UserInput
       type={type}

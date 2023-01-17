@@ -9,6 +9,11 @@ function UserInput({ type, user, id, userList, setUserList }) {
   const [email, setEmail] = useState(user?.email || "");
   const [position, setPosition] = useState(user?.position || "");
 
+  const arrSex = [
+    { id: 1, value: "Nam" },
+    { id: 2, value: "Nữ" },
+  ];
+
   const navigate = useNavigate();
 
   const handeSubmit = (e) => {
@@ -40,13 +45,41 @@ function UserInput({ type, user, id, userList, setUserList }) {
       <h1>{type === "new" ? "Add new user" : "Detail user"}</h1>
       <form action="">
         <Input label="Name" input={name} setInput={setName} />
-        <Input label="Sex" input={sex} setInput={setSex} />
-        <Input label="Email" input={email} setInput={setEmail} />
+        {/* <Input label="Sex" input={sex} setInput={setSex} /> */}
+        <div>
+          <label htmlFor="" className="label_info">
+            Sex :
+          </label>
+          <select
+            name=""
+            id=""
+            className="input_info"
+            onChange={(e) => setSex(e.target.value)}
+          >
+            {arrSex.map((item) => {
+              return (
+                <option
+                  value={item?.value}
+                  key={item.id}
+                  selected={sex === item?.value ? true : ""}
+                >
+                  {item?.value}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+        <Input
+          label="Email"
+          input={email}
+          setInput={setEmail}
+          typeInput="email"
+        />
         <Input label="Postion" input={position} setInput={setPosition} />
+        <button className="btn_add" onClick={handeSubmit}>
+          {type === "new" ? "Create new user" : "Update user"}
+        </button>
       </form>
-      <div className="btn_add" onClick={handeSubmit}>
-        {type === "new" ? "Create new user" : "Update user"}
-      </div>
     </Wrapper>
   );
 }
@@ -54,6 +87,10 @@ const Wrapper = styled.div`
   padding: 2rem;
   h1 {
     margin-bottom: 1rem;
+  }
+  label {
+    display: inline-block;
+    margin-bottom: 2rem;
   }
 `;
 export default UserInput;

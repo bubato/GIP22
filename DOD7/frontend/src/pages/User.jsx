@@ -6,7 +6,7 @@ function User() {
     {
       id: "1",
       name: "Huy Hiep",
-      sex: "male",
+      sex: "Nam",
       email: "hiepnh.fk@gmail.com",
       position: "Boss",
     },
