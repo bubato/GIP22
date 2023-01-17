@@ -20,17 +20,17 @@ const ListPosition = ({positionList, setPositionList}) => {
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Index</th>
                             <th>Position_Name</th>
                             <th>Position_Lever</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {positionList?.map((item) => {
+                        {positionList?.map((item,index) => {
                             return (<tr key={item.id}>
-                                <td>{item?.id}</td>
-                                <td>{item?.position}</td>
+                                <td>{++index}</td>
+                                <td>{item?.name}</td>
                                 <td>{item?.lever}</td>
                                 <td>
                                     <button className="btn_delete" onClick={() => removePosition(item?.id)}> <RiDeleteBin6Line />   Delete</button>

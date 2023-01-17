@@ -5,18 +5,18 @@ import { AiOutlineDiff } from 'react-icons/ai';
 const CreatePosition = ({positionList, setPositionList}) => {
     const navigate = useNavigate();
     const leverPosition = [
-        {id:1, name: "Intern"},
-        {id:2, name: "Fresher"},
-        {id:3, name: "Junior"},
-        {id:4, name: "Mid-level"},
-        {id:5, name: "Senior"}
+        { id: 1, name: 1 },
+        { id: 2, name: 2 },
+        { id: 3, name: 3 },
+        { id: 4, name: 4 },
+        { id: 5, name: 5 }
     ]
-    const [lever,setLever] = useState('');
-    const [position,setPosition] = useState('');
+    const [lever,setLever] = useState(1);
+    const [name,setName] = useState('');
     const handleSubmit = () => {
-        if(position.length > 5 && lever !== ''){
+        if(name.length >= 5){
             const id = new Date().toISOString()
-            const data = ({id,position,lever})
+            const data = ({id,name,lever})
             setPositionList([...positionList,data])
         }
         navigate("/positions");
@@ -27,7 +27,7 @@ const CreatePosition = ({positionList, setPositionList}) => {
                 <form>
                     <label>Position_name</label>
                     <br/>
-                    <input type="text" className="input_name" minLength={5} required  onChange={(e) => setPosition(e.target.value)}/>
+                    <input type="text" className="input_name" minLength={5} required  onChange={(e) => setName(e.target.value)}/>
                     <br/>
                     <label>Lever Position</label>
                     <br/>

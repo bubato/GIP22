@@ -4,33 +4,32 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
-  const leverPosition = [
-    { id: 1, name: 'Intern' },
-    { id: 2, name: 'Fresher' },
-    { id: 3, name: 'Junior' },
-    { id: 4, name: 'Mid-level' },
-    { id: 5, name: 'Senior' }
-  ]
 
+  const [lever, setLever] = useState();
+  const [name, setName] = useState();
+  const leverPosition = [
+    { id: 1, name: 1 },
+    { id: 2, name: 2 },
+    { id: 3, name: 3 },
+    { id: 4, name: 4 },
+    { id: 5, name: 5 } 
+  ]
+  
   const { id } = useParams();
-  const [data, setData] = useState(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPosition = () => {
     const position = positionList.find((position) => position.id === id);
-    if (position) {
-      setData(position);
-    }
+    setLever(position?.lever)
+    setName(position?.name)
   };
   useEffect(() => {
     getPosition();
-  }, [id, getPosition]);
+  }, [id]);
 
-  const [lever, setLever] = useState('');
-  const [position, setPosition] = useState('');
-
-
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {  
+    e.preventDefault();
     const positionUpdate = positionList.filter((position) => position.id !== id)
-    setPositionList([...positionUpdate, { id, position, lever }])
+    setPositionList([...positionUpdate, { id, name, lever }])
     navigate("/positions");
   }
   return (
@@ -39,7 +38,7 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
         <form>
           <label>Position_name</label>
           <br />
-          <input type="text" defaultValue={data?.position} className="input_name" minLength={5} required onChange={(e) => setPosition(e.target.value)} />
+          <input type="text" value={name} className="input_name" minLength={5} required onChange={(e) => setName(e.target.value)} />
           <br />
           <label>Lever Position</label>
           <br />
@@ -47,7 +46,7 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
             <option value={''} disabled>Choose lever</option>
             {leverPosition.map((lv) => {
               return (
-                <option key={lv?.id} value={lv?.name} selected={lv?.name === data?.lever ? true : ''}>{lv.name}</option>
+                <option key={lv?.id} value={lv?.name} selected={lv?.name === lever ? true : false}>{lv.name}</option>
               )
             })}
           </select>

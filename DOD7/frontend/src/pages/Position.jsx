@@ -5,8 +5,8 @@ function Position() {
   const [positionList, setPositionList] = useState([
     {
       id: "1",
-      position: "Develop",
-      lever: "Junior"
+      name: "Develop",
+      lever: 1
     },
   ]);
   return <div>
