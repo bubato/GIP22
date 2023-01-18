@@ -1,19 +1,29 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { RiDeleteBin6Line, RiFolderAddLine } from 'react-icons/ri';
 import { RxUpdate } from 'react-icons/rx';
-const ListPosition = ({positionList, setPositionList}) => {
-    const removePosition = (id) => {
-        const newPosition = positionList?.filter((position) => position.id !== id)
+import { list, remove } from '../../apis/position';
+const ListPosition = ({ positionList, setPositionList }) => {
+    const removePosition = async(id) => {
+        const data = await remove(id)
+        getListPosition()
+        const newPosition = positionList?.filter((position) => position._id !== id)
         setPositionList(newPosition)
     }
+    const getListPosition = async () => {
+        const res = await list();
+        setPositionList(res.data)
+    }
+    useEffect(() => {
+        getListPosition();
+    }, []);
     return (
         <Wrapper>
             <div className="container">
                 <div className="title">
                     <h1>Position</h1>
-                    <Link to={`/positions/add`}>
+                    <Link to={`/position/add`}>
                         <button className="btn_add"> <RiFolderAddLine />   Create</button>
                     </Link>
                 </div>
@@ -27,14 +37,14 @@ const ListPosition = ({positionList, setPositionList}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {positionList?.map((item,index) => {
+                        {positionList?.map((item, index) => {
                             return (<tr key={item.id}>
                                 <td>{++index}</td>
                                 <td>{item?.name}</td>
-                                <td>{item?.lever}</td>
+                                <td>{item?.level}</td>
                                 <td>
                                     <button className="btn_delete" onClick={() => removePosition(item?.id)}> <RiDeleteBin6Line />   Delete</button>
-                                    <Link to={`/positions/${item?.id}`}>
+                                    <Link to={`/position/${item?._id}`}>
                                         <button className="btn_update"> <RxUpdate /> Update</button>
                                     </Link>
                                 </td>

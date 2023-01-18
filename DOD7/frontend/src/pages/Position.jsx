@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { CreatePosition, ListPosition, UpdatePosition } from "../components/Position/index";
 function Position() {
-  const [positionList, setPositionList] = useState([
-    {
-      id: "1",
-      name: "Develop",
-      lever: 1
-    },
-  ]);
+  const [positionList, setPositionList] = useState([]);
   return <div>
     <Routes>
       <Route exact path=""  element={<ListPosition positionList={positionList} setPositionList={setPositionList} />} />
