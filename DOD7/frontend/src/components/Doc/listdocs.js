@@ -58,7 +58,7 @@ function Listdocs() {
                             <td>{index+1}</td>
                             <td>{item?.name}</td>
                             <td>{item?.link}</td>
-                            <td>{item?.owner}</td>
+                            <td>{item?.owner?.fullName}</td>
                             <td>{item?.thumbnailLink}</td>
                             <td>{item?.type}</td>
 
