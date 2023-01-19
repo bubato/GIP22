@@ -1,50 +1,70 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
+import {list, remove} from '../../apis/doc'
 
-import { BiAddToQueue } from 'react-icons/bi';
+
 import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
-import { GrDocumentUpdate } from 'react-icons/gr';
 
 
 
 
 
-function Listdocs({listDocs, setListDocs}) {
+
+function Listdocs() {
+    // const {id} = useParams();
+
+    const [data, setData] = useState([]);
+    const getData = async()=>{
+        const res = await list();
+        setData(res?.data)
+    }
+    // console.log(data);
+
+    useEffect(()=>{
+        getData();
+    },[])
    
 
-    const removeListDocs = (id) =>{
-        const newDocs = listDocs?.filter((docs)=>docs.id !== id)
-        setListDocs(newDocs)
+    const removeListDocs = async(id) =>{
+        await remove(id)
+        const arrList = data.filter(item => item._id !== id); 
+        setData(arrList)
     }
     return ( 
     <Wrapper>
-        <div className='add-btn'>
-            <Link to={`/docs/add`}>
-              Add new doc
-            </Link>
-        </div>
+        
+        <Link to={`/docs/add`} className='add-btn'>
+            Add new doc
+        </Link>
+        
 
         <table>
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Tên</th>
-                    <th>Tác giả</th>
-                    <th >Ngày phát hành</th>
+                    <th>Name</th>
+                    <th>Link</th>
+                    <th >Owner</th>
+                    <th>Thumbnail Link</th>
+                    <th >Type</th>
                    
                 </tr>
             </thead>
             <tbody>
                 {
-                    listDocs?.map((item,index)=>{
+                    data?.map((item,index)=>{
                         return(<tr key={item?.id}>
                             <td>{index+1}</td>
                             <td>{item?.name}</td>
-                            <td>{item?.author}</td>
-                            <td>{item?.releaseDay}</td>
-                            <button onClick={()=>removeListDocs(item.id)}><AiOutlineDelete /></button>
-                            <Link to={`/docs/${item?.id}`}>
+                            <td>{item?.link}</td>
+                            <td>{item?.owner}</td>
+                            <td>{item?.thumbnailLink}</td>
+                            <td>{item?.type}</td>
+
+
+                            <button onClick={()=>removeListDocs(item?._id)}><AiOutlineDelete /></button>
+                            <Link to={`/docs/${item?._id}`}>
                                 <button className='btn_update'><AiOutlineEdit/></button>
                             </Link>
                         </tr>)
