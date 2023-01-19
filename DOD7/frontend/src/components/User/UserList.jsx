@@ -30,7 +30,7 @@ function UserList() {
             <th>Full Name</th>
             <th>Gender</th>
             <th>Email</th>
-            <th>Posision</th>
+            <th>Position</th>
           </tr>
           {data?.map((item, index) => {
             return (
@@ -39,7 +39,7 @@ function UserList() {
                 <td>{item?.fullName}</td>
                 <td>{item?.gender}</td>
                 <td>{item?.email}</td>
-                <td>{item?.posision}</td>
+                <td>{item?.position?.name}</td>
                 <BtnRD id={item?._id} data={data} setData={setData} />
               </tr>
             );
