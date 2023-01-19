@@ -1,15 +1,12 @@
 import React, {useState} from "react";
 import {Routes, Route} from "react-router-dom";
-import Docs, { AddDocs, UpdateDocs } from "../components/Doc";
-import Listdocs from "../components/Doc/Listdocs";
+import { AddDocs,ListDocs, UpdateDocs } from "../components/Doc";
 
 function Doc() {
 
-
-
   return (<div>
     <Routes>
-      <Route path="" element= {<Listdocs/>}></Route>
+      <Route path="" element= {<ListDocs/>}></Route>
       <Route path="/add" element= {<AddDocs/>}></Route>
       <Route path="/:id" element= {<UpdateDocs/>}></Route>
     </Routes>

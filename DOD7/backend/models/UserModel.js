@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const User = mongoose.Schema({
   fullName: {
@@ -10,8 +10,9 @@ const User = mongoose.Schema({
     required: true,
   },
   posision: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
+    ref: 'Position'
   },
   email: {
     type: String,
@@ -38,5 +39,11 @@ const User = mongoose.Schema({
     required: false,
   },
 });
-
+User.pre(/^find/, function (next) {
+  this.populate({
+    path: "position",
+    select: "name level",
+  });
+  next();
+});
 export default mongoose.model("Users", User);
