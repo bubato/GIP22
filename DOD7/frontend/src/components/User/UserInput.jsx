@@ -3,10 +3,13 @@ import styled from "styled-components";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 import { createUser, updateUser } from "../../apis/user";
+import { list } from "../../apis/position";
 function UserInput({ type, user, id }) {
+  console.log(user);
   const [fullName, setFullName] = useState(user?.fullName || "");
   const [code, setCode] = useState(user?.code || "");
-  const [posision, setPosision] = useState(user?.posision || "");
+  const [position, setPosition] = useState(user?.position?.name || "");
+  const [listPosition, setListPosition] = useState([]);
   const [email, setEmail] = useState(user?.email || "");
   const [telephone, setTelephone] = useState(user?.telephone || "");
   const [gender, setGender] = useState(user?.gender || "Nam");
@@ -23,7 +26,7 @@ function UserInput({ type, user, id }) {
     const user = {
       fullName,
       code,
-      posision,
+      position,
       email,
       telephone,
       gender,
@@ -42,12 +45,20 @@ function UserInput({ type, user, id }) {
   useEffect(() => {
     setFullName(user?.fullName);
     setCode(user?.code);
-    setPosision(user?.posision);
+    setPosition(user?.position?.name);
     setEmail(user?.email);
     setTelephone(user?.telephone);
     setGender(user?.gender || "Nam");
     setAddress(user?.address);
   }, [user]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await list();
+      setListPosition(res?.data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <Wrapper>
@@ -55,7 +66,29 @@ function UserInput({ type, user, id }) {
       <form action="">
         <Input label="Name" input={fullName} setInput={setFullName} />
         <Input label="Code" input={code} setInput={setCode} />
-        <Input label="Posision" input={posision} setInput={setPosision} />
+        <div>
+          <label htmlFor="" className="label_info">
+            Position :
+          </label>
+          <select
+            name=""
+            id=""
+            className="input_info"
+            onChange={(e) => setPosition(e.target.value)}
+          >
+            {listPosition?.map((item) => {
+              return (
+                <option
+                  value={item?._id}
+                  key={item?._id}
+                  selected={position === item?.name ? true : ""}
+                >
+                  {item.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
         <Input
           label="Email"
           input={email}
