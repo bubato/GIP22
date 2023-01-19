@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BtnRD from "./BtnRD";
-function UserList({ userList, setUserList }) {
+import { getListUser } from "../../apis/user";
+function UserList() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getListUser();
+      setData(res?.data);
+    }
+    fetchData();
+  }, []);
+
   return (
     <Wrapper>
       <div className="heading">
@@ -21,15 +32,15 @@ function UserList({ userList, setUserList }) {
             <th>Email</th>
             <th>Posision</th>
           </tr>
-          {userList.map((item, index) => {
+          {data?.map((item, index) => {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item?.fullname}</td>
+                <td>{item?.fullName}</td>
                 <td>{item?.gender}</td>
                 <td>{item?.email}</td>
                 <td>{item?.posision}</td>
-                <BtnRD id={item?.id} data={userList} setData={setUserList} />
+                <BtnRD id={item?._id} data={data} setData={setData} />
               </tr>
             );
           })}

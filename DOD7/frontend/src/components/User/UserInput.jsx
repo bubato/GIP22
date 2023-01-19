@@ -2,56 +2,50 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
-
-function UserInput({ type, user, id, userList, setUserList }) {
-  const [fullname, setFullName] = useState(user?.name || "");
+import { createUser, updateUser } from "../../apis/user";
+function UserInput({ type, user, id }) {
+  const [fullName, setFullName] = useState(user?.fullName || "");
   const [code, setCode] = useState(user?.code || "");
   const [posision, setPosision] = useState(user?.posision || "");
   const [email, setEmail] = useState(user?.email || "");
   const [telephone, setTelephone] = useState(user?.telephone || "");
-  const [gender, setGender] = useState(user?.gender || "");
+  const [gender, setGender] = useState(user?.gender || "Nam");
   const [address, setAddress] = useState(user?.address || "");
 
+  const navigate = useNavigate();
   const arrSex = [
     { id: 1, value: "Nam" },
     { id: 2, value: "Nữ" },
   ];
 
-  const navigate = useNavigate();
-
-  const handeSubmit = (e) => {
+  const handeSubmit = async (e) => {
     e.preventDefault();
     const user = {
-      fullname,
+      fullName,
       code,
       posision,
       email,
       telephone,
       gender,
       address,
-      id: new Date().toISOString(),
     };
     if (type === "new") {
-      setUserList([...userList, user]);
+      await createUser(user);
       navigate("/users");
     }
     if (type === "detail") {
-      const newData = userList?.filter((item) => {
-        return item?.id !== id;
-      });
-      newData.push(user);
-      setUserList(newData);
+      await updateUser(user, id);
       navigate("/users");
     }
   };
 
   useEffect(() => {
-    setFullName(user?.fullname);
+    setFullName(user?.fullName);
     setCode(user?.code);
     setPosision(user?.posision);
     setEmail(user?.email);
     setTelephone(user?.telephone);
-    setGender(user?.gender);
+    setGender(user?.gender || "Nam");
     setAddress(user?.address);
   }, [user]);
 
@@ -59,7 +53,7 @@ function UserInput({ type, user, id, userList, setUserList }) {
     <Wrapper>
       <h1>{type === "new" ? "Add new user" : "Detail user"}</h1>
       <form action="">
-        <Input label="Name" input={fullname} setInput={setFullName} />
+        <Input label="Name" input={fullName} setInput={setFullName} />
         <Input label="Code" input={code} setInput={setCode} />
         <Input label="Posision" input={posision} setInput={setPosision} />
         <Input
