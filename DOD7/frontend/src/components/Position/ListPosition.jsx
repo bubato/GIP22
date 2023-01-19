@@ -43,7 +43,7 @@ const ListPosition = ({ positionList, setPositionList }) => {
                                 <td>{item?.name}</td>
                                 <td>{item?.level}</td>
                                 <td>
-                                    <button className="btn_delete" onClick={() => removePosition(item?.id)}> <RiDeleteBin6Line />   Delete</button>
+                                    <button className="btn_delete" onClick={() => removePosition(item?._id)}> <RiDeleteBin6Line />   Delete</button>
                                     <Link to={`/position/${item?._id}`}>
                                         <button className="btn_update"> <RxUpdate /> Update</button>
                                     </Link>
