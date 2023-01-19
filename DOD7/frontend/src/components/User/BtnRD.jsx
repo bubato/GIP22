@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaTrash, FaEdit } from "react-icons/fa";
-
+import { removeUser } from "../../apis/user";
 function BtnRD({ id, data, setData }) {
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
-    const newData = data?.filter((item) => item.id !== id);
+    await removeUser(id);
+    const newData = data?.filter((item) => item._id !== id);
     setData(newData);
   };
 
