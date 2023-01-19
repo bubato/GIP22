@@ -1,17 +1,14 @@
 import React, { useState } from 'react'
-import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import { create } from '../../apis/doc';
 
-function Adddocs({listDocs, setListDocs}) {
+function Adddocs() {
     const navigate = useNavigate()
-    const [doc, setDoc] = useState({name:'',author:'', releaseDay:'' ,id:new Date().toISOString()});
-    const handleSubmit = (e)=>{
+    const [doc, setDoc] = useState({name:'',link:'', owner:'' ,thumbnailLink:'' ,type:'' });
+    const handleSubmit = async(e)=>{       
         e.preventDefault();
-        // const id = new Date().toISOString()
-
-        setListDocs([...listDocs, doc])
+        await create(doc)
         navigate('/docs')
-        // setDoc
     }
     
     return (
@@ -22,13 +19,22 @@ function Adddocs({listDocs, setListDocs}) {
                     <br/>
                     <input className='input_info' onChange={(e) => setDoc({...doc, name:e.target.value})}/>
                     <br/>
-                    <label className='label_info'>Author</label>
+                    <label className='label_info'>Link</label>
                     <br/>
-                    <input className='input_info' onChange={(e) => setDoc({...doc, author:e.target.value})}/>
+                    <input className='input_info' onChange={(e) => setDoc({...doc, link:e.target.value})}/>
                     <br/>
-                    <label className='label_info'>Release Day</label>
+                    <label className='label_info'>Owner</label>
                     <br/>
-                    <input className='input_info' type="date" onChange={(e) => setDoc({...doc, releaseDay:e.target.value})}/>
+                    <input className='input_info' onChange={(e) => setDoc({...doc, owner:e.target.value})}/>
+                    <br/>
+                    
+                    <label className='label_info'>Thumbnail Link</label>
+                    <br/>
+                    <input className='input_info' onChange={(e) => setDoc({...doc, thumbnailLink:e.target.value})}/>
+                    <br/>
+                    <label className='label_info'>Type</label>
+                    <br/>
+                    <input type='number' className='input_info' onChange={(e) => setDoc({...doc, type:e.target.value})}/>
                     <br/>
                     <button className='btn_add' onClick={handleSubmit}> Create</button>
                 </form>
