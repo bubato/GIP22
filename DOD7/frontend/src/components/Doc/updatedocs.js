@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import {read, update} from '../../apis/doc'
-
-
+import {getListUser} from '../../apis/user';
 function UpdateDocs() {
 
 const navigate = useNavigate()
@@ -13,6 +12,9 @@ const navigate = useNavigate()
     const [owner, setOwner] = useState("");
     const [thumbnailLink, setThumbnailLink] = useState("");
     const [type, setType] = useState("");
+    const [listUser, setListUser] = useState([]);
+
+
 
 
     const {id} = useParams()
@@ -28,6 +30,14 @@ const navigate = useNavigate()
     useEffect(() =>{
         getDoc()
     },[id])
+
+    useEffect(() => {
+        async function fetchData() {
+          const res = await getListUser();
+          setListUser(res?.data);
+        }
+        fetchData();
+      }, []);
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
@@ -55,9 +65,31 @@ const navigate = useNavigate()
                     <br/>
                     <input className='input_info'  value={link}  onChange={(e) => setLink(e.target.value)}/>
                     <br/>
-                    <label className='label_info'>Owner</label>
-                    <br/>
-                    <input className='input_info'  value={owner}  onChange={(e) => setOwner(e.target.value)}/>
+                    <div>
+                    
+          <label htmlFor="" className="label_info">
+           Owner :
+          </label>
+          <select
+            name=""
+            id=""
+            className="input_info"
+            onChange={(e) => setOwner( e.target.value)}
+          >
+            {listUser?.map((item) => {
+                console.log(item)
+              return (
+                <option
+                  value={item?._id}
+                  key={item?._id}
+                >
+                  {item?.fullName}
+                
+                </option>
+              );
+            })}
+          </select>
+        </div>
                     <br/>
                     <label className='label_info'>ThumbnailLink</label>
                     <br/>
