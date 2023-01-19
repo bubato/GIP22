@@ -1,36 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { Await, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
+import { readPosition, updatePosition } from '../../apis/position';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
 
-  const [lever, setLever] = useState();
+  const [level, setLevel] = useState();
   const [name, setName] = useState();
+  const [dataPosition, setDataPosition] = useState([]);
+
   const leverPosition = [
     { id: 1, name: 1 },
     { id: 2, name: 2 },
     { id: 3, name: 3 },
     { id: 4, name: 4 },
-    { id: 5, name: 5 } 
+    { id: 5, name: 5 }
   ]
-  
+
   const { id } = useParams();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getPosition = () => {
-    const position = positionList.find((position) => position.id === id);
-    setLever(position?.lever)
-    setName(position?.name)
-  };
   useEffect(() => {
-    getPosition();
+    const getPosition = async () => {
+      const position = await readPosition(id)
+      if (position) {
+        setDataPosition(position.data)
+      }
+    };
+    getPosition()
   }, [id]);
 
-  const handleSubmit = (e) => {  
+  useEffect(() => {
+    if (dataPosition) {
+      setName(dataPosition.name)
+      setLevel(dataPosition.level)
+    }
+  }, [dataPosition]);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const positionUpdate = positionList.filter((position) => position.id !== id)
-    setPositionList([...positionUpdate, { id, name, lever }])
-    navigate("/positions");
+    await updatePosition(id, { name, level });
+    navigate("/position");
   }
   return (
     <Wrapper>
@@ -42,11 +50,11 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
           <br />
           <label>Lever Position</label>
           <br />
-          <select className="select_lever" onChange={(e) => setLever(e.target.value)} required>
+          <select className="select_lever" onChange={(e) => setLevel(e.target.value)} required>
             <option value={''} disabled>Choose lever</option>
             {leverPosition.map((lv) => {
               return (
-                <option key={lv?.id} value={lv?.name} selected={lv?.name === lever ? true : false}>{lv.name}</option>
+                <option key={lv?.id} value={lv?.name} selected={lv?.name == level ? true : false}>{lv.name}</option>
               )
             })}
           </select>

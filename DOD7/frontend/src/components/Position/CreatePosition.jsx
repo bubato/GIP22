@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
-const CreatePosition = ({positionList, setPositionList}) => {
+import { create } from '../../apis/position';
+const CreatePosition = () => {
     const navigate = useNavigate();
     const leverPosition = [
         { id: 1, name: 1 },
@@ -11,15 +12,15 @@ const CreatePosition = ({positionList, setPositionList}) => {
         { id: 4, name: 4 },
         { id: 5, name: 5 }
     ]
-    const [lever,setLever] = useState(1);
-    const [name,setName] = useState('');
-    const handleSubmit = () => {
+    const [level,setLevel] = useState(0);
+    const [name,setName] = useState();
+    const handleSubmit = async(e) => {
+        e.preventDefault();
         if(name.length >= 5){
-            const id = new Date().toISOString()
-            const data = ({id,name,lever})
-            setPositionList([...positionList,data])
+            const data = ({name,level})
+            await create(data)
         }
-        navigate("/positions");
+        navigate("/position");
     }
     return (
         <Wrapper>
@@ -31,7 +32,7 @@ const CreatePosition = ({positionList, setPositionList}) => {
                     <br/>
                     <label>Lever Position</label>
                     <br/>
-                    <select className="select_lever" onChange={(e) => setLever(e.target.value)}>
+                    <select className="select_lever" onChange={(e) => setLevel(e.target.value)}>
                     <option value={''} disabled>Choose lever</option>
                         {leverPosition.map((item) => {
                             return(

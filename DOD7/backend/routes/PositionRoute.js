@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/position', getPositions);
 router.get('/position/:id', getPositionById);
-router.post('/position', savePosition);
+router.post('/position/add', savePosition);
 router.patch('/position/:id', updatePosition);
 router.delete('/position/:id', deletePosition);
 
