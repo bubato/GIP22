@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Doc, User, Position, Home } from "./pages";
 import Navbar from "./components/Navbar";
@@ -9,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <Navbar />
       <div className="main">
         <Header />
