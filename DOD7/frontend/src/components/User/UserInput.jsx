@@ -39,7 +39,6 @@ function UserInput({ type, user, id }) {
         navigate("/users");
         successAlert("Add user successfully");
       } catch (error) {
-        console.log(error);
         errorAlert("Add user false");
       }
     }
@@ -49,7 +48,6 @@ function UserInput({ type, user, id }) {
         navigate("/users");
         successAlert("Update user successfully");
       } catch (error) {
-        console.log(error);
         errorAlert("Update user false");
       }
     }
