@@ -4,9 +4,12 @@ import { Routes, Route } from "react-router-dom";
 import { Doc, User, Position, Home } from "./pages";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
+    <ToastContainer />
       <Navbar />
       <div className="main">
         <Header />
