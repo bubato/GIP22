@@ -9,7 +9,7 @@ import { list } from "../../apis/position";
 function UserInput({ type, user, id }) {
   const [fullName, setFullName] = useState(user?.fullName || "");
   const [code, setCode] = useState(user?.code || "");
-  const [position, setPosition] = useState(user?.position?.name || "");
+  const [position, setPosition] = useState(user?.position?._id || "");
   const [listPosition, setListPosition] = useState([]);
   const [email, setEmail] = useState(user?.email || "");
   const [telephone, setTelephone] = useState(user?.telephone || "");
@@ -97,7 +97,7 @@ function UserInput({ type, user, id }) {
                 <option
                   value={item?._id}
                   key={item?._id}
-                  selected={position === item?.name ? true : ""}
+                  selected={position === item?._id ? true : ""}
                 >
                   {item.name}
                 </option>
