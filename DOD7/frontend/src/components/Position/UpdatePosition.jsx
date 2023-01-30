@@ -6,8 +6,8 @@ import { readPosition, updatePosition } from '../../apis/position';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
 
-  const [level, setLevel] = useState();
-  const [name, setName] = useState();
+  const [level, setLevel] = useState(1);
+  const [name, setName] = useState("");
   const [dataPosition, setDataPosition] = useState([]);
 
   const leverPosition = [
@@ -37,8 +37,14 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
   }, [dataPosition]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updatePosition(id, { name, level });
-    navigate("/position");
+    if (name === "") {
+      document.getElementById('warning').innerHTML = 'Tên không được để trống';
+    } else if (name.length < 5) {
+      document.getElementById('warning').innerHTML = 'Tên phải dài hơn 5 ký tự';
+    } else {
+      await updatePosition(id, { name, level });
+      navigate("/position");
+    }
   }
   return (
     <Wrapper>
@@ -47,6 +53,7 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
           <label>Position_name</label>
           <br />
           <input type="text" value={name} className="input_name" minLength={5} required onChange={(e) => setName(e.target.value)} />
+          <p id='warning'></p>
           <br />
           <label>Lever Position</label>
           <br />
@@ -92,6 +99,10 @@ label{
 }
 .btn_update{
   margin:1rem;
+}
+p{
+  color:red;
+  margin-left:1rem;
 }
 `
 

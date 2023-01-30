@@ -12,15 +12,19 @@ const CreatePosition = () => {
         { id: 4, name: 4 },
         { id: 5, name: 5 }
     ]
-    const [level,setLevel] = useState(0);
-    const [name,setName] = useState();
+    const [level,setLevel] = useState(1);
+    const [name,setName] = useState("");
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if(name.length >= 5){
+        if(name === ""){
+            document.getElementById('warning').innerHTML = 'Tên không được để trống';
+        }else if(name.length < 5){
+            document.getElementById('warning').innerHTML = 'Tên phải dài hơn 5 ký tự';
+        }else{
             const data = ({name,level})
             await create(data)
+            navigate("/position");
         }
-        navigate("/position");
     }
     return (
         <Wrapper>
@@ -29,6 +33,7 @@ const CreatePosition = () => {
                     <label>Position_name</label>
                     <br/>
                     <input type="text" className="input_name" minLength={5} required  onChange={(e) => setName(e.target.value)}/>
+                    <p id='warning'></p>
                     <br/>
                     <label>Lever Position</label>
                     <br/>
@@ -74,6 +79,10 @@ label{
 }
 .btn_update{
     margin:1rem;
+}
+p{
+    color:red;
+    margin-left:1rem;
 }
 `
 export default CreatePosition
