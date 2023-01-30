@@ -10,8 +10,9 @@ const Document = mongoose.Schema({
         required: true
     },
     owner: {
-        type: String,
-        required: true
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'Users'
     },
     thumbnailLink: {
         type: String,
@@ -30,5 +31,11 @@ const Document = mongoose.Schema({
         required: false
     },
 });
-
+Document.pre(/^find/, function (next) {
+    this.populate({
+      path: "owner",
+      select: "fullName",
+    });
+    next();
+  });
 export default mongoose.model('Document', Document);

@@ -46,7 +46,7 @@ export const deletePosition = async (req, res) => {
                 position: null
             },
         };
-        await User.updateMany(filter, updateBody);
+        await User.deleteMany (filter, updateBody);
         const deletedPosition = await Position.deleteOne({_id:req.params.id});
         res.status(200).json(deletedPosition);
     } catch (error) {
