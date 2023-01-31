@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-// import BtnRD from "./BtnRD";
+import BtnRD from "./BtnRD";
 import Loading from "../Loading";
 
 import { getListUser } from "../../apis/user";
@@ -51,7 +51,7 @@ function UserList() {
                   <td>{item?.gender}</td>
                   <td>{item?.email}</td>
                   <td>{item?.position?.name}</td>
-                  {/* <BtnRD id={item?._id} data={data} setData={setData} /> */}
+                  <BtnRD id={item?._id} data={data} setData={setData} />
                 </tr>
               );
             })}
