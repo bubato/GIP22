@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
@@ -7,14 +8,7 @@ import { successAlert, errorAlert } from "../../utils/alert";
 import { createUser, updateUser } from "../../apis/user";
 import { list } from "../../apis/position";
 function UserInput({ type, user, id }) {
-  const [fullName, setFullName] = useState(user?.fullName || "");
-  const [code, setCode] = useState(user?.code || "");
-  const [position, setPosition] = useState(user?.position?._id || "");
   const [listPosition, setListPosition] = useState([]);
-  const [email, setEmail] = useState(user?.email || "");
-  const [telephone, setTelephone] = useState(user?.telephone || "");
-  const [gender, setGender] = useState(user?.gender || "Nam");
-  const [address, setAddress] = useState(user?.address || "");
 
   const navigate = useNavigate();
   const arrSex = [
@@ -22,29 +16,27 @@ function UserInput({ type, user, id }) {
     { id: 2, value: "Nữ" },
   ];
 
-  const handeSubmit = async (e) => {
-    e.preventDefault();
-    const user = {
-      fullName,
-      code,
-      position,
-      email,
-      telephone,
-      gender,
-      address,
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data) => {
     if (type === "new") {
       try {
-        await createUser(user);
+        await createUser(data);
         navigate("/users");
         successAlert("Add user successfully");
       } catch (error) {
+        console.log(error);
         errorAlert("Add user false");
       }
     }
     if (type === "detail") {
       try {
-        await updateUser(user, id);
+        await updateUser(data, data?._id);
         navigate("/users");
         successAlert("Update user successfully");
       } catch (error) {
@@ -54,13 +46,7 @@ function UserInput({ type, user, id }) {
   };
 
   useEffect(() => {
-    setFullName(user?.fullName);
-    setCode(user?.code);
-    setPosition(user?.position?._id);
-    setEmail(user?.email);
-    setTelephone(user?.telephone);
-    setGender(user?.gender || "Nam");
-    setAddress(user?.address);
+    reset(user);
   }, [user]);
 
   useEffect(() => {
@@ -74,9 +60,9 @@ function UserInput({ type, user, id }) {
   return (
     <Wrapper>
       <h1>{type === "new" ? "Add new user" : "Detail user"}</h1>
-      <form action="" onSubmit={handeSubmit}>
-        <Input label="Name" input={fullName} setInput={setFullName} />
-        <Input label="Code" input={code} setInput={setCode} />
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <Input label="Name" value="fullName" register={register} />
+        <Input label="Code" value="code" register={register} />
         <div>
           <label htmlFor="" className="label_info">
             Position :
@@ -85,7 +71,7 @@ function UserInput({ type, user, id }) {
             name=""
             id=""
             className="input_info"
-            onChange={(e) => setPosition(e.target.value)}
+            {...register("position", { required: true })}
           >
             {type === "new" && (
               <option value="" selected={true}>
@@ -97,7 +83,7 @@ function UserInput({ type, user, id }) {
                 <option
                   value={item?._id}
                   key={item?._id}
-                  selected={position === item?._id ? true : ""}
+                  selected={user?.position?._id === item?._id ? true : ""}
                 >
                   {item.name}
                 </option>
@@ -107,12 +93,12 @@ function UserInput({ type, user, id }) {
         </div>
         <Input
           label="Email"
-          input={email}
-          setInput={setEmail}
+          value="email"
+          register={register}
           typeInput="email"
         />
-        <Input label="Telephone" input={telephone} setInput={setTelephone} />
-        <Input label="Address" input={address} setInput={setAddress} />
+        <Input label="Telephone" value="telephone" register={register} />
+        <Input label="Address" value="address" register={register} />
 
         <div>
           <label htmlFor="" className="label_info">
@@ -122,22 +108,18 @@ function UserInput({ type, user, id }) {
             name=""
             id=""
             className="input_info"
-            onChange={(e) => setGender(e.target.value)}
+            {...register("gender", { required: true })}
           >
             {arrSex.map((item) => {
               return (
-                <option
-                  value={item.value}
-                  key={item.id}
-                  selected={gender === item.value ? true : ""}
-                >
+                <option value={item.value} key={item.id}>
                   {item.value}
                 </option>
               );
             })}
           </select>
         </div>
-        <button className="btn_add" onClick={handeSubmit}>
+        <button className="btn_add">
           {type === "new" ? "Create new user" : "Update user"}
         </button>
       </form>
