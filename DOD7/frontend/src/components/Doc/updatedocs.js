@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { read, update } from "../../apis/doc";
 import { getListUser } from "../../apis/user";
 import {successAlert, errorAlert} from '../../utils/alert'
+import Loading from "../Loading";
 
 function UpdateDoc() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function UpdateDoc() {
   const [type, setType] = useState("");
   const [listUser, setListUser] = useState([]);
 
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const getDoc = async () => {
     const res = await read(id);
@@ -30,8 +32,10 @@ function UpdateDoc() {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const res = await getListUser();
       setListUser(res?.data);
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -55,6 +59,9 @@ function UpdateDoc() {
       errorAlert('Sửa không thành công!')
     }
   };
+  if(loading){
+    return <Loading/>
+  }
 
   return (
     <Wrapper>
