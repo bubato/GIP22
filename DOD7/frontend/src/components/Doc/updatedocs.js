@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { read, update } from "../../apis/doc";
 import { getListUser } from "../../apis/user";
-function UpdateDocs() {
+import {successAlert, errorAlert} from '../../utils/alert'
+
+function UpdateDoc() {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -33,19 +35,25 @@ function UpdateDocs() {
     }
     fetchData();
   }, []);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      _id: id,
-      name,
-      link,
-      owner,
-      thumbnailLink,
-      type,
-    };
-    await update(data);
-    navigate("/docs");
+
+    try {
+      const data = {
+        _id: id,
+        name,
+        link,
+        owner,
+        thumbnailLink,
+        type,
+      };
+      await update(data);
+      successAlert('Sửa thành công!')
+      navigate("/docs");
+    } catch (error) {
+      errorAlert('Sửa không thành công!')
+    }
   };
 
   return (
@@ -62,6 +70,7 @@ function UpdateDocs() {
           <label className="label_info">Link :</label>
           <input
             className="input_info"
+
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
@@ -76,8 +85,7 @@ function UpdateDocs() {
               className="input_info"
               onChange={(e) => setOwner(e.target.value)}
             >
-              {listUser?.map((item) => {
-                console.log(item);
+              {listUser?.map((item,index) => {
                 return (
                   <option value={item?._id} key={item?._id}>
                     {item?.fullName}
@@ -125,4 +133,4 @@ const Wrapper = styled.div`
     margin-bottom: 10px;
   }
 `;
-export default UpdateDocs;
+export default UpdateDoc;

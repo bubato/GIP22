@@ -3,15 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { create } from '../../apis/doc';
 import {getListUser} from '../../apis/user';
 import styled from 'styled-components';
+import {successAlert, errorAlert} from '../../utils/alert'
+import 'react-toastify/dist/ReactToastify.css';
 
-function Adddocs() {
+function AddDoc() {
     const navigate = useNavigate()
     const [doc, setDoc] = useState({name:'',link:'', owner:'' ,thumbnailLink:'' ,type:'' });
     const [listUser, setListUser] = useState([]);
     const handleSubmit = async(e)=>{       
         e.preventDefault();
-        await create(doc)
-        navigate('/docs')
+        console.log(doc);
+        try {
+          await create(doc);
+          successAlert('Tạo Doc thành công!')
+          navigate("/docs");
+        } catch (error) {
+          console.log(error);
+          errorAlert('Tạo Doc không thành công!')
+        }
     }
     useEffect(() => {
         async function fetchData() {
@@ -42,12 +51,12 @@ function Adddocs() {
                 name=""
                 id=""
                 className="input_info"
-                onChange={(e) => setDoc({ ...doc, owner: e.target.value })}
+                onChange={(e) => setDoc({ ...doc, owner: e.target.value })}                
               >
-                {listUser?.map((item) => {
-                  console.log(item);
+                {listUser?.map((item,index) => {
+                  console.log(item._id)
                   return (
-                    <option value={item?._id} key={item?._id}>
+                    <option value={item?._id} key={item?._id} selected={index===0?true:""}>
                       {item?.fullName}
                     </option>
                   );
@@ -90,7 +99,5 @@ const Wrapper = styled.div`
 .btn_add{
   margin: 25px auto auto 240px;
 }
-
 `
-
-export default Adddocs;
+export default AddDoc;

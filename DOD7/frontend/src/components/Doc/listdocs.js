@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import {list, remove} from '../../apis/doc'
 import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
+import {successAlert} from '../../utils/alert'
 
-function Listdocs() {
+function ListDoc() {
     const [data, setData] = useState([]);
     const getData = async()=>{
         const res = await list();
@@ -14,9 +15,14 @@ function Listdocs() {
         getData();
     },[])
     const removeListDocs = async(id) =>{
-        await remove(id)
-        const arrList = data.filter(item => item._id !== id); 
-        setData(arrList)
+        // eslint-disable-next-line no-restricted-globals
+        const cf = confirm("Bạn muốn xóa Doc này không?")
+        if(cf){
+            await remove(id);
+            const arrList = data.filter((item) => item._id !== id);
+            setData(arrList);
+            successAlert('Xóa thành công!')
+        }      
     }
     return ( 
     <Wrapper>     
@@ -96,7 +102,5 @@ position : relative;
         border-radius:2px;
         cursor: pointer;
     }
-  
 `
-
-export default Listdocs;
+export default ListDoc;
