@@ -24,7 +24,6 @@ function UserInput({ type, user, id }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (type === "new") {
       try {
         await createUser(data);
@@ -80,7 +79,6 @@ function UserInput({ type, user, id }) {
               </option>
             )}
             {listPosition?.map((item) => {
-              console.log(item);
               return (
                 <option
                   value={item?._id}
