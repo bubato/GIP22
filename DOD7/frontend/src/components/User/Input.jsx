@@ -10,8 +10,7 @@ function Input({ label, input, setInput, typeInput = "text" }) {
         value={input}
         className="input_info"
         required
-        // maxLength={15}
-        minLength={5}
+        minLength="8"
         onChange={(e) => setInput(e.target.value)}
       />
     </div>
