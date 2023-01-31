@@ -4,6 +4,28 @@ import { Link } from "react-router-dom";
 import { RiDeleteBin6Line, RiFolderAddLine } from 'react-icons/ri';
 import { RxUpdate } from 'react-icons/rx';
 import { list, remove } from '../../apis/position';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const ListPosition = ({ positionList, setPositionList }) => {
+    const removePosition = async(id) => {
+        // eslint-disable-next-line no-restricted-globals
+        const notification = confirm("Bạn có muốn xóa Position này không")
+        if(notification){
+            await remove(id)
+            getListPosition()
+            const newPosition = positionList?.filter((position) => position._id !== id)
+            setPositionList(newPosition)
+            toast.success('Xóa chức vụ thành công', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+        }
 import Loading from '../Loading';
 const ListPosition = ({ positionList, setPositionList }) => {
     const [loading, setLoading] = useState(false)
