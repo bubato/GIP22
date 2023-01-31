@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { RiDeleteBin6Line, RiFolderAddLine } from 'react-icons/ri';
@@ -26,14 +26,29 @@ const ListPosition = ({ positionList, setPositionList }) => {
                 theme: "dark",
               });
         }
+import Loading from '../Loading';
+const ListPosition = ({ positionList, setPositionList }) => {
+    const [loading, setLoading] = useState(false)
+    const removePosition = async (id) => {
+        await remove(id)
+        getListPosition()
+        const newPosition = positionList?.filter((position) => position._id !== id)
+        setPositionList(newPosition)
     }
     const getListPosition = async () => {
+        setLoading(true)
         const res = await list();
         setPositionList(res.data)
+        console.log(positionList);
+        setLoading(false)
     }
     useEffect(() => {
         getListPosition();
     }, []);
+
+    if (loading === true) {
+        return <Loading />
+    }
     return (
         <Wrapper>
             <div className="container">
@@ -43,32 +58,37 @@ const ListPosition = ({ positionList, setPositionList }) => {
                         <button className="btn_add"> <RiFolderAddLine />   Create</button>
                     </Link>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Position_Name</th>
-                            <th>Position_Lever</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {positionList?.map((item, index) => {
-                            return (<tr key={item.id}>
-                                <td>{++index}</td>
-                                <td>{item?.name}</td>
-                                <td>{item?.level}</td>
-                                <td>
-                                    <button className="btn_delete" onClick={() => removePosition(item?._id)}> <RiDeleteBin6Line />   Delete</button>
-                                    <Link to={`/position/${item?._id}`}>
-                                        <button className="btn_update"> <RxUpdate /> Update</button>
-                                    </Link>
-                                </td>
+                {positionList?.length === 0
+                    ?
+                    <h1 className='fill'>Không có chức vụ nào</h1>
+                    :
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Position_Name</th>
+                                <th>Position_Lever</th>
+                                <th>Action</th>
                             </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {positionList?.map((item, index) => {
+                                return (<tr key={item._id}>
+                                    <td>{++index}</td>
+                                    <td>{item?.name}</td>
+                                    <td>{item?.level}</td>
+                                    <td>
+                                        <button className="btn_delete" onClick={() => removePosition(item?._id)}> <RiDeleteBin6Line />   Delete</button>
+                                        <Link to={`/position/${item?._id}`}>
+                                            <button className="btn"> <RxUpdate /> Update</button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                }
             </div>
         </Wrapper>
     );
@@ -78,6 +98,11 @@ const Wrapper = styled.div`
     width:100%;
     margin:2rem;
 }
+.fill{
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
+}
 .title{
     margin: 2rem;
     display: flex;
@@ -85,6 +110,15 @@ const Wrapper = styled.div`
 }
 .btn_add{
     margin-right: 2rem;
+}
+.btn{
+    border: none;
+    color: white;
+    background-color: gray;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
 }
 table{
     border:1px solid black;
