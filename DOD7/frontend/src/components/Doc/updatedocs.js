@@ -1,85 +1,73 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { read, update } from "../../apis/doc";
 import { getListUser } from "../../apis/user";
-import {successAlert, errorAlert} from '../../utils/alert'
+import { successAlert, errorAlert } from "../../utils/alert";
 import Loading from "../Loading";
 
 function UpdateDoc() {
   const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm({
+  });
 
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
-  const [owner, setOwner] = useState("");
-  const [thumbnailLink, setThumbnailLink] = useState("");
-  const [type, setType] = useState("");
   const [listUser, setListUser] = useState([]);
-
+  const [owner, setOwner] = useState("");
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const getDoc = async () => {
+    setLoading(true);
     const res = await read(id);
-    setName(res?.data?.name);
-    setLink(res?.data?.link);
-    setOwner(res?.data?.owner);
-    setThumbnailLink(res?.data?.thumbnailLink);
-    setType(res?.data?.type);
+    reset(res?.data);
+    setOwner(res?.data?.owner?._id);
+    setLoading(false);
   };
-  useEffect(() => {
-    getDoc();
-  }, [id]);
+  // useEffect(() => { 
+  //   getDoc();
+  // }, [id]);
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      await getDoc();
       const res = await getListUser();
       setListUser(res?.data);
-      setLoading(false);
     }
     fetchData();
   }, []);
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
+  const onSubmit = async (data) => {
     try {
-      const data = {
-        _id: id,
-        name,
-        link,
-        owner,
-        thumbnailLink,
-        type,
-      };
       await update(data);
-      successAlert('Sửa thành công!')
+      successAlert("Sửa thành công!");
       navigate("/docs");
     } catch (error) {
-      errorAlert('Sửa không thành công!')
+      errorAlert("Sửa không thành công!");
     }
   };
-  if(loading){
-    return <Loading/>
+  if (loading) {
+    return <Loading />;
   }
 
   return (
     <Wrapper>
       <div className="container">
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <label className="label_info">Name :</label>
           <input
             className="input_info"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            {...register("name", { required: true, minLength: 5 })}
           />
           <br />
           <label className="label_info">Link :</label>
           <input
             className="input_info"
-
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
+            {...register("link", { required: true, minLength: 5 })}
           />
           <br />
           <div>
@@ -87,34 +75,36 @@ function UpdateDoc() {
               Owner :
             </label>
             <select
-              name=""
-              id=""
-              className="input_info"
-              onChange={(e) => setOwner(e.target.value)}
-            >
-              {listUser?.map((item,index) => {
-                return (
-                  <option value={item?._id} key={item?._id}>
-                    {item?.fullName}
-                  </option>
-                );
-              })}
-            </select>
+                  className="input_info"
+                  {...register("owner", { required: true })}
+                  key={id}
+                >
+                  {listUser?.map((item) => {
+                    console.log(owner === item?._id ? true : false);
+                    return (
+                      <option
+                        value={item?._id}
+                        key={item?._id}
+                        selected={owner === item?._id ? true : false}
+                      >
+                        {item?.fullName}
+                      </option>
+                    );
+                  })}
+                </select>
           </div>
           <br />
           <label className="label_info">ThumbnailLink :</label>
           <input
             className="input_info"
-            value={thumbnailLink}
-            onChange={(e) => setThumbnailLink(e.target.value)}
+            {...register("thumbnailLink", { required: true, minLength: 5 })}
           />
           <br />
           <label className="label_info">Type :</label>
           <input
             type="number"
             className="input_info"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
+            {...register("type", { required: true, min: 1, max: 99 })}
           />
           <br />
           <button className="btn_add" onClick={handleSubmit}>
@@ -133,7 +123,7 @@ const Wrapper = styled.div`
     margin: 0 240px;
   }
   .label_info {
-    display:inline-block;
+    display: inline-block;
     padding: 10px;
   }
   input {
