@@ -100,5 +100,4 @@ const Wrapper = styled.div`
   margin: 25px auto auto 240px;
 }
 `
-
 export default AddDoc;

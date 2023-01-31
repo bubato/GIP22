@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BtnRD from "./BtnRD";
+import Loading from "../Loading";
+
 import { getListUser } from "../../apis/user";
 function UserList() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const res = await getListUser();
       setData(res?.data);
+      setLoading(false);
     }
     fetchData();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Wrapper>
@@ -22,30 +31,33 @@ function UserList() {
           Add new user
         </Link>
       </div>
-
-      <div className="list">
-        <table>
-          <tr>
-            <th>STT</th>
-            <th>Full Name</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Position</th>
-          </tr>
-          {data?.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.fullName}</td>
-                <td>{item?.gender}</td>
-                <td>{item?.email}</td>
-                <td>{item?.position?.name}</td>
-                <BtnRD id={item?._id} data={data} setData={setData} />
-              </tr>
-            );
-          })}
-        </table>
-      </div>
+      {data?.length === 0 ? (
+        <h2>List user is empty😥</h2>
+      ) : (
+        <div className="list">
+          <table>
+            <tr>
+              <th>STT</th>
+              <th>Full Name</th>
+              <th>Gender</th>
+              <th>Email</th>
+              <th>Position</th>
+            </tr>
+            {data?.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item?.fullName}</td>
+                  <td>{item?.gender}</td>
+                  <td>{item?.email}</td>
+                  <td>{item?.position?.name}</td>
+                  <BtnRD id={item?._id} data={data} setData={setData} />
+                </tr>
+              );
+            })}
+          </table>
+        </div>
+      )}
     </Wrapper>
   );
 }

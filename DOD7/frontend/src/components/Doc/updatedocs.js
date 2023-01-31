@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { read, update } from "../../apis/doc";
 import { getListUser } from "../../apis/user";
 import {successAlert, errorAlert} from '../../utils/alert'
-import 'react-toastify/dist/ReactToastify.css';
+
 function UpdateDoc() {
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ function UpdateDoc() {
     }
     fetchData();
   }, []);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -70,6 +70,7 @@ function UpdateDoc() {
           <label className="label_info">Link :</label>
           <input
             className="input_info"
+
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
@@ -85,7 +86,6 @@ function UpdateDoc() {
               onChange={(e) => setOwner(e.target.value)}
             >
               {listUser?.map((item,index) => {
-                console.log(item);
                 return (
                   <option value={item?._id} key={item?._id}>
                     {item?.fullName}

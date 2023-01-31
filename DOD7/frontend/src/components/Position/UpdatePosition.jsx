@@ -3,12 +3,16 @@ import styled from "styled-components";
 import { Await, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
 import { readPosition, updatePosition } from '../../apis/position';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loading from '../Loading';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
 
   const [level, setLevel] = useState(1);
   const [name, setName] = useState("");
   const [dataPosition, setDataPosition] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const leverPosition = [
     { id: 1, name: 1 },
@@ -21,10 +25,12 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
   const { id } = useParams();
   useEffect(() => {
     const getPosition = async () => {
+      setLoading(true)
       const position = await readPosition(id)
       if (position) {
         setDataPosition(position.data)
       }
+      setLoading(false)
     };
     getPosition()
   }, [id]);
@@ -35,6 +41,9 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
       setLevel(dataPosition.level)
     }
   }, [dataPosition]);
+  if (loading === true) {
+    return <Loading />
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name === "") {
@@ -42,8 +51,31 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
     } else if (name.length < 5) {
       document.getElementById('warning').innerHTML = 'Tên phải dài hơn 5 ký tự';
     } else {
-      await updatePosition(id, { name, level });
-      navigate("/position");
+      try {
+        await updatePosition(id, { name, level });
+        toast.success('Update chức vụ thành công', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate("/position");
+      } catch (error) {
+        toast.error('Update chức vụ không thành công', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
+      }
     }
   }
   return (
@@ -66,7 +98,7 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
             })}
           </select>
           <br />
-          <button className="btn_update" onClick={handleSubmit}> <AiOutlineDiff /> Update</button>
+          <button className="btn" onClick={handleSubmit}> <AiOutlineDiff /> Update</button>
         </form>
       </div>
     </Wrapper>
@@ -97,8 +129,15 @@ const Wrapper = styled.div`
 label{
   margin:1rem;
 }
-.btn_update{
+.btn{
   margin:1rem;
+  border: none;
+  color: white;
+  background-color: gray;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 p{
   color:red;

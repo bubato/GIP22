@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import {list, remove} from '../../apis/doc'
 import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
-import 'react-toastify/dist/ReactToastify.css';
 import {successAlert} from '../../utils/alert'
+
 function ListDoc() {
     const [data, setData] = useState([]);
     const getData = async()=>{
@@ -102,7 +102,5 @@ position : relative;
         border-radius:2px;
         cursor: pointer;
     }
-  
 `
-
 export default ListDoc;
