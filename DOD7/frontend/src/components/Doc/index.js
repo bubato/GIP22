@@ -1,5 +1,5 @@
-import AddDocs from "./adddocs";
-import ListDocs from "./listdocs";
-import UpdateDocs from "./updatedocs";
+import AddDoc from "./adddocs";
+import ListDoc from "./listdocs";
+import UpdateDoc from "./updatedocs";
 
-export { AddDocs, ListDocs, UpdateDocs };
+export { AddDoc, ListDoc, UpdateDoc };
