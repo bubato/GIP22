@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
 import { create } from '../../apis/position';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { errorAlert, successAlert } from '../../utils/alert';
+import { notification, validate } from '../../translation/vn';
 const CreatePosition = () => {
     const navigate = useNavigate();
     const leverPosition = [
@@ -19,35 +19,17 @@ const CreatePosition = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (name === "") {
-            document.getElementById('warning').innerHTML = 'Tên không được để trống';
+            document.getElementById('warning').innerHTML = validate.requiredInput;
         } else if (name.length < 5) {
-            document.getElementById('warning').innerHTML = 'Tên phải dài hơn 5 ký tự';
+            document.getElementById('warning').innerHTML = validate.minInput;
         } else {
             try {
                 const data = ({ name, level })
                 await create(data)
-                toast.success('Tạo chức vụ thành công', {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                successAlert(notification.addPositionSuccess)
                 navigate("/position");
             } catch (error) {
-                toast.error('Tạo chức vụ không thành công', {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    });
+                errorAlert(notification.addPositionError)
             }
         }
     }

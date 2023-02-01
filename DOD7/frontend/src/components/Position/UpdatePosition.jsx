@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
-import { Await, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
 import { readPosition, updatePosition } from '../../apis/position';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Loading from '../Loading';
+import { errorAlert, successAlert } from '../../utils/alert';
+import { notification, validate } from '../../translation/vn';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
 
@@ -47,34 +47,16 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name === "") {
-      document.getElementById('warning').innerHTML = 'Tên không được để trống';
+      document.getElementById('warning').innerHTML = validate.requiredInput;
     } else if (name.length < 5) {
-      document.getElementById('warning').innerHTML = 'Tên phải dài hơn 5 ký tự';
+      document.getElementById('warning').innerHTML = validate.minInput;
     } else {
       try {
         await updatePosition(id, { name, level });
-        toast.success('Update chức vụ thành công', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        successAlert(notification.updatePositionSuccess)
         navigate("/position");
       } catch (error) {
-        toast.error('Update chức vụ không thành công', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
+        errorAlert(notification.updatePositionError)
       }
     }
   }
