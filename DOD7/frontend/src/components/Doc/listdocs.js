@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 import {list, remove} from '../../apis/doc'
 import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
 import {successAlert} from '../../utils/alert'
+import Loading from '../Loading'
 
 function ListDoc() {
     const [data, setData] = useState([]);
+    const [loading,setLoading] = useState(false);
     const getData = async()=>{
+        setLoading(true)
         const res = await list();
         setData(res?.data)
+        setLoading(false)
     }
     useEffect(()=>{
         getData();
@@ -24,12 +28,17 @@ function ListDoc() {
             successAlert('Xóa thành công!')
         }      
     }
+    if(loading){
+        return <Loading/>
+    }
     return ( 
     <Wrapper>     
         <Link to={`/docs/add`} className='add-btn'>
             Add new doc
-        </Link>       
-        <table>
+        </Link>
+        {data.length ===0?(
+            <h1>Chưa có Doc nào</h1>
+        ):<table>
             <thead>
                 <tr>
                     <th>STT</th>
@@ -62,7 +71,8 @@ function ListDoc() {
                 }
                 
             </tbody>
-        </table>
+        </table>}       
+        
     </Wrapper> 
     );
 }
