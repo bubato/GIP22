@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { successAlert, errorAlert } from "../../utils/alert";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import {notification, validate} from "../../translation/vn"
 
 function AddDoc() {
   const navigate = useNavigate();
@@ -18,10 +19,10 @@ function AddDoc() {
   const onSubmit = async (data) => {
     try {
       await create(data);
-      successAlert("Tạo Doc thành công!");
+      successAlert(notification.addDocSuccess);
       navigate("/docs");
     } catch (error) {
-      errorAlert("Tạo Doc không thành công!");
+      errorAlert(notification.addDocError);
     }
   };
   useEffect(() => {
@@ -40,10 +41,10 @@ function AddDoc() {
           <input
             className="input_info"
             {...register("name", {
-              required: "Vui lòng nhập!",
+              required: validate.requiredInput,
               minLength: {
                 value: 5,
-                message: "Vui lòng nhập đủ 5 ký tự!",
+                message: validate.minInput,
               },
             })}
           />
@@ -57,10 +58,10 @@ function AddDoc() {
           <input
             className="input_info"
             {...register("link", {
-              required: "Vui lòng nhập!",
+              required: validate.requiredInput,
               minLength: {
                 value: 5,
-                message: "Vui lòng nhập đủ 5 ký tự!",
+                message: validate.minInput,
               },
             })}
           />
@@ -78,7 +79,7 @@ function AddDoc() {
               name=""
               id=""
               className="input_info"
-              {...register("owner", { required: "Vui lòng chọn!" })}
+              {...register("owner", { required: validate.requiredInput })}
             >
               <option value="">Chọn owner</option>
               {listUser?.map((item) => {
@@ -99,10 +100,10 @@ function AddDoc() {
           <input
             className="input_info"
             {...register("thumbnailLink", {
-              required: "Vui lòng nhập!",
+              required: validate.requiredInput,
               minLength: {
                 value: 5,
-                message: "Vui lòng nhập đủ 5 ký tự!",
+                message: validate.minInput,
               },
             })}
           />
@@ -118,7 +119,7 @@ function AddDoc() {
             defaultValue={"1"}
             className="input_info"
             {...register("type", {
-              required: "Vui lòng nhập số!",
+              required: validate.requiredInput,
               min: 1,
               max: 99,
             })}
