@@ -28,9 +28,6 @@ function UpdateDoc() {
     setOwner(res?.data?.owner?._id);
     setLoading(false);
   };
-  // useEffect(() => {
-  //   getDoc();
-  // }, [id]);
 
   useEffect(() => {
     async function fetchData() {
@@ -84,13 +81,8 @@ function UpdateDoc() {
             <label htmlFor="" className="label_info">
               Owner :
             </label>
-            <select
-              className="input_info"
-              {...register("owner", { required: "Vui lòng chọn" })}
-              key={id}
-            >
+            <select className="input_info" {...register("owner")} key={id}>
               {listUser?.map((item) => {
-                console.log(owner === item?._id ? true : false);
                 return (
                   <option
                     value={item?._id}
@@ -102,11 +94,6 @@ function UpdateDoc() {
                 );
               })}
             </select>
-            <ErrorMessage
-              errors={errors}
-              name="owner"
-              render={({ message }) => <p className="err-mess">{message}</p>}
-            />
           </div>
           <br />
           <label className="label_info">ThumbnailLink :</label>

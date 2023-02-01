@@ -50,7 +50,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    await Document.deleteMany({ owner: id });
+    await Document.deleteMany({ owner: req.params.id });
     const deleteduser = await User.deleteOne({ _id: req.params.id });
     res.status(200).json(deleteduser);
   } catch (error) {
