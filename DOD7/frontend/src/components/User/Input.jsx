@@ -1,5 +1,6 @@
 import React from "react";
-function Input({ label, typeInput = "text", register, value }) {
+
+function Input({ label, typeInput = "text", value, register }) {
   return (
     <div>
       <label htmlFor="" className="label_info">
@@ -8,7 +9,9 @@ function Input({ label, typeInput = "text", register, value }) {
       <input
         type={typeInput}
         className="input_info"
-        {...register(value, { required: true, minLength: 5 })}
+        {...register(value)}
+        minLength={5}
+        required
       />
     </div>
   );
