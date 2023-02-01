@@ -5,37 +5,27 @@ import { Link } from "react-router-dom";
 import { RiDeleteBin6Line, RiFolderAddLine } from "react-icons/ri";
 import { RxUpdate } from "react-icons/rx";
 import { list, remove } from "../../apis/position";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { successAlert } from "../../utils/alert";
+import {notification} from "../../translation/vn";
 const ListPosition = ({ positionList, setPositionList }) => {
   const [loading, setLoading] = useState(false);
   const removePosition = async (id) => {
     // eslint-disable-next-line no-restricted-globals
-    const notification = confirm("Bạn có muốn xóa Position này không");
-    if (notification) {
+    const cf = confirm(notification.confirmDelete);
+    if (cf) {
       await remove(id);
       getListPosition();
       const newPosition = positionList?.filter(
         (position) => position._id !== id
       );
       setPositionList(newPosition);
-      toast.success("Xóa chức vụ thành công", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      successAlert(notification.deletePositionSuccess)
     }
   };
   const getListPosition = async () => {
     setLoading(true);
     const res = await list();
     setPositionList(res.data);
-    console.log(positionList);
     setLoading(false);
   };
   useEffect(() => {
@@ -81,12 +71,10 @@ const ListPosition = ({ positionList, setPositionList }) => {
                         className="btn_delete"
                         onClick={() => removePosition(item?._id)}
                       >
-                        {" "}
                         <RiDeleteBin6Line /> Delete
                       </button>
                       <Link to={`/position/${item?._id}`}>
                         <button className="btn">
-                          {" "}
                           <RxUpdate /> Update
                         </button>
                       </Link>
