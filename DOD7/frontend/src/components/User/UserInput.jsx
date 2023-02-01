@@ -7,7 +7,9 @@ import { successAlert, errorAlert } from "../../utils/alert";
 
 import { createUser, updateUser } from "../../apis/user";
 import { list } from "../../apis/position";
-function UserInput({ type, user, id }) {
+function UserInput({ type, user }) {
+  const { register, handleSubmit, reset } = useForm();
+
   const [listPosition, setListPosition] = useState([]);
 
   const navigate = useNavigate();
@@ -15,13 +17,6 @@ function UserInput({ type, user, id }) {
     { id: 1, value: "Nam" },
     { id: 2, value: "Nữ" },
   ];
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
 
   const onSubmit = async (data) => {
     if (type === "new") {
@@ -72,6 +67,7 @@ function UserInput({ type, user, id }) {
             id=""
             className="input_info"
             {...register("position", { required: true })}
+            required
           >
             {type === "new" && (
               <option value="" selected={true}>
@@ -109,6 +105,7 @@ function UserInput({ type, user, id }) {
             id=""
             className="input_info"
             {...register("gender", { required: true })}
+            required
           >
             {arrSex.map((item) => {
               return (
