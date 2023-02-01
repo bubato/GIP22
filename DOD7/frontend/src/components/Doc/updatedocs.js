@@ -6,6 +6,7 @@ import { read, update } from "../../apis/doc";
 import { getListUser } from "../../apis/user";
 import { successAlert, errorAlert } from "../../utils/alert";
 import Loading from "../Loading";
+import { ErrorMessage } from "@hookform/error-message";
 
 function UpdateDoc() {
   const navigate = useNavigate();
@@ -14,8 +15,7 @@ function UpdateDoc() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({
-  });
+  } = useForm({});
 
   const [listUser, setListUser] = useState([]);
   const [owner, setOwner] = useState("");
@@ -28,7 +28,7 @@ function UpdateDoc() {
     setOwner(res?.data?.owner?._id);
     setLoading(false);
   };
-  // useEffect(() => { 
+  // useEffect(() => {
   //   getDoc();
   // }, [id]);
 
@@ -61,13 +61,23 @@ function UpdateDoc() {
           <label className="label_info">Name :</label>
           <input
             className="input_info"
-            {...register("name", { required: true, minLength: 5 })}
+            {...register("name", { required: "Vui lòng nhập", minLength: 5 })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="name"
+            render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
           <label className="label_info">Link :</label>
           <input
             className="input_info"
-            {...register("link", { required: true, minLength: 5 })}
+            {...register("link", { required: "Vui lòng nhập", minLength: 5 })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="link"
+            render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
           <div>
@@ -75,36 +85,58 @@ function UpdateDoc() {
               Owner :
             </label>
             <select
-                  className="input_info"
-                  {...register("owner", { required: true })}
-                  key={id}
-                >
-                  {listUser?.map((item) => {
-                    console.log(owner === item?._id ? true : false);
-                    return (
-                      <option
-                        value={item?._id}
-                        key={item?._id}
-                        selected={owner === item?._id ? true : false}
-                      >
-                        {item?.fullName}
-                      </option>
-                    );
-                  })}
-                </select>
+              className="input_info"
+              {...register("owner", { required: "Vui lòng chọn" })}
+              key={id}
+            >
+              {listUser?.map((item) => {
+                console.log(owner === item?._id ? true : false);
+                return (
+                  <option
+                    value={item?._id}
+                    key={item?._id}
+                    selected={owner === item?._id ? true : false}
+                  >
+                    {item?.fullName}
+                  </option>
+                );
+              })}
+            </select>
+            <ErrorMessage
+              errors={errors}
+              name="owner"
+              render={({ message }) => <p className="err-mess">{message}</p>}
+            />
           </div>
           <br />
           <label className="label_info">ThumbnailLink :</label>
           <input
             className="input_info"
-            {...register("thumbnailLink", { required: true, minLength: 5 })}
+            {...register("thumbnailLink", {
+              required: "Vui lòng nhập",
+              minLength: 5,
+            })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="thumbnailLink"
+            render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
           <label className="label_info">Type :</label>
           <input
             type="number"
             className="input_info"
-            {...register("type", { required: true, min: 1, max: 99 })}
+            {...register("type", {
+              required: "Vui lòng nhập",
+              min: 1,
+              max: 99,
+            })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name="type"
+            render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
           <button className="btn_add" onClick={handleSubmit}>
@@ -128,6 +160,11 @@ const Wrapper = styled.div`
   }
   input {
     margin-bottom: 10px;
+  }
+  .err-mess {
+    margin-left: 250px;
+    color: #e74c3c;
+    max-height: 50px;
   }
 `;
 export default UpdateDoc;
