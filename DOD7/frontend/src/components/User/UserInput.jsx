@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 import { successAlert, errorAlert } from "../../utils/alert";
+import { notification } from "../../translation/vn";
 
 import { createUser, updateUser } from "../../apis/user";
 import { list } from "../../apis/position";
@@ -23,18 +24,18 @@ function UserInput({ type, user }) {
       try {
         await createUser(data);
         navigate("/users");
-        successAlert("Add user successfully");
+        successAlert(notification.addUserSuccess);
       } catch (error) {
-        errorAlert("Add user false");
+        errorAlert(notification.addUserError);
       }
     }
     if (type === "detail") {
       try {
         await updateUser(data, data?._id);
         navigate("/users");
-        successAlert("Update user successfully");
+        successAlert(notification.updateUserSuccess);
       } catch (error) {
-        errorAlert("Update user false");
+        errorAlert(notification.updateUserError);
       }
     }
   };
