@@ -7,6 +7,7 @@ import { getListUser } from "../../apis/user";
 import { successAlert, errorAlert } from "../../utils/alert";
 import Loading from "../Loading";
 import { ErrorMessage } from "@hookform/error-message";
+import { notification, validate } from "../../translation/vn";
 
 function UpdateDoc() {
   const navigate = useNavigate();
@@ -41,10 +42,10 @@ function UpdateDoc() {
   const onSubmit = async (data) => {
     try {
       await update(data);
-      successAlert("Sửa thành công!");
+      successAlert(notification.updateDocSuccess);
       navigate("/docs");
     } catch (error) {
-      errorAlert("Sửa không thành công!");
+      errorAlert(notification.updateDocError);
     }
   };
   if (loading) {
@@ -58,7 +59,13 @@ function UpdateDoc() {
           <label className="label_info">Name :</label>
           <input
             className="input_info"
-            {...register("name", { required: "Vui lòng nhập", minLength: 5 })}
+            {...register("name", {
+              required: validate.requiredInput,
+              minLength: {
+                value: 5,
+                message: validate.minInput,
+              },
+            })}
           />
           <ErrorMessage
             errors={errors}
@@ -69,7 +76,13 @@ function UpdateDoc() {
           <label className="label_info">Link :</label>
           <input
             className="input_info"
-            {...register("link", { required: "Vui lòng nhập", minLength: 5 })}
+            {...register("link", {
+              required: validate.requiredInput,
+              minLength: {
+                value: 5,
+                message: validate.minInput,
+              },
+            })}
           />
           <ErrorMessage
             errors={errors}
@@ -100,8 +113,11 @@ function UpdateDoc() {
           <input
             className="input_info"
             {...register("thumbnailLink", {
-              required: "Vui lòng nhập",
-              minLength: 5,
+              required: validate.requiredInput,
+              minLength: {
+                value: 5,
+                message: validate.minInput,
+              },
             })}
           />
           <ErrorMessage
@@ -115,7 +131,7 @@ function UpdateDoc() {
             type="number"
             className="input_info"
             {...register("type", {
-              required: "Vui lòng nhập",
+              required: validate.requiredInput,
               min: 1,
               max: 99,
             })}

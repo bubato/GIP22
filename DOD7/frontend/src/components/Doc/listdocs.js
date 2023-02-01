@@ -5,6 +5,7 @@ import { list, remove } from "../../apis/doc";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { successAlert } from "../../utils/alert";
 import Loading from "../Loading";
+import { notification } from "../../translation/vn";
 
 function ListDoc() {
   const [data, setData] = useState([]);
@@ -20,12 +21,12 @@ function ListDoc() {
   }, []);
   const removeListDocs = async (id) => {
     // eslint-disable-next-line no-restricted-globals
-    const cf = confirm("Bạn muốn xóa Doc này không?");
+    const cf = confirm(notification.confirmDelete);
     if (cf) {
       await remove(id);
       const arrList = data.filter((item) => item._id !== id);
       setData(arrList);
-      successAlert("Xóa thành công!");
+      successAlert(notification.deleteDocSuccess);
     }
   };
   if (loading) {
