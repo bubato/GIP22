@@ -7,13 +7,17 @@ import { successAlert, errorAlert } from "../../utils/alert";
 function BtnRD({ id, data, setData }) {
   const handleDelete = async (e) => {
     e.preventDefault();
-    try {
-      await removeUser(id);
-      const newData = data?.filter((item) => item._id !== id);
-      setData(newData);
-      successAlert("Delete user successfully");
-    } catch (error) {
-      errorAlert("Delete user false");
+    // eslint-disable-next-line no-restricted-globals
+    const cf = confirm("Are you sure you want to delete");
+    if (cf) {
+      try {
+        await removeUser(id);
+        const newData = data?.filter((item) => item._id !== id);
+        setData(newData);
+        successAlert("Delete user successfully");
+      } catch (error) {
+        errorAlert("Delete user false");
+      }
     }
   };
 

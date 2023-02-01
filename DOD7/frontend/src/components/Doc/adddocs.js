@@ -16,7 +16,6 @@ function AddDoc() {
     handleSubmit,
   } = useForm({});
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       await create(data);
       successAlert("Tạo Doc thành công!");
@@ -107,7 +106,6 @@ function AddDoc() {
               },
             })}
           />
-          {/* {errors.thumbnailLink && <p>Không được trống</p>} */}
           <ErrorMessage
             errors={errors}
             name="thumbnailLink"

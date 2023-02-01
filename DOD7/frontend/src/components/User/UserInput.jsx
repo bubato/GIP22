@@ -25,7 +25,6 @@ function UserInput({ type, user }) {
         navigate("/users");
         successAlert("Add user successfully");
       } catch (error) {
-        console.log(error);
         errorAlert("Add user false");
       }
     }
