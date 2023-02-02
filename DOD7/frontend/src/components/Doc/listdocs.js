@@ -5,7 +5,7 @@ import { list, remove } from "../../apis/doc";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { successAlert } from "../../utils/alert";
 import Loading from "../Loading";
-import { notification } from "../../translation/vn";
+import { notification, docTranslation, noData } from "../../translation/vn";
 
 function ListDoc() {
   const [data, setData] = useState([]);
@@ -35,20 +35,20 @@ function ListDoc() {
   return (
     <Wrapper>
       <Link to={`/docs/add`} className="add-btn">
-        Add new doc
+        {docTranslation.create}
       </Link>
       {data.length === 0 ? (
-        <h1>Chưa có Doc nào</h1>
+        <h1>{noData.list}</h1>
       ) : (
         <table>
           <thead>
             <tr>
-              <th>STT</th>
-              <th>Name</th>
-              <th>Link</th>
-              <th>Owner</th>
-              <th>Thumbnail Link</th>
-              <th>Type</th>
+              <th>{docTranslation.stt}</th>
+              <th>{docTranslation.name}</th>
+              <th>{docTranslation.link}</th>
+              <th>{docTranslation.owner}</th>
+              <th>{docTranslation.thumbnailLink}</th>
+              <th>{docTranslation.type}</th>
             </tr>
           </thead>
           <tbody>

@@ -7,7 +7,7 @@ import { getListUser } from "../../apis/user";
 import { successAlert, errorAlert } from "../../utils/alert";
 import Loading from "../Loading";
 import { ErrorMessage } from "@hookform/error-message";
-import { notification, validate } from "../../translation/vn";
+import { notification, validate, docTranslation } from "../../translation/vn";
 
 function UpdateDoc() {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ function UpdateDoc() {
     <Wrapper>
       <div className="container">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className="label_info">Name :</label>
+          <label className="label_info">{docTranslation.name}</label>
           <input
             className="input_info"
             {...register("name", {
@@ -73,7 +73,7 @@ function UpdateDoc() {
             render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
-          <label className="label_info">Link :</label>
+          <label className="label_info">{docTranslation.link} :</label>
           <input
             className="input_info"
             {...register("link", {
@@ -92,24 +92,57 @@ function UpdateDoc() {
           <br />
           <div>
             <label htmlFor="" className="label_info">
-              Owner :
+              {docTranslation.owner} :
             </label>
-            <select className="input_info" {...register("owner")} key={id}>
-              {listUser?.map((item) => {
-                return (
-                  <option
-                    value={item?._id}
-                    key={item?._id}
-                    selected={owner === item?._id ? true : false}
-                  >
-                    {item?.fullName}
-                  </option>
-                );
-              })}
+            <select
+              className="input_info"
+              {...register("owner", { required: validate.requiredInput })}
+              key={id}
+              // defaultValue={}
+            >
+              {owner ? (
+                <>
+                  {listUser?.map((item, index) => {
+                    return (
+                      <option
+                        value={item?._id}
+                        key={item?._id}
+                        selected={
+                          owner
+                            ? owner === item?._id
+                              ? true
+                              : ""
+                            : index === 0
+                            ? true
+                            : ""
+                        }
+                      >
+                        {item?.fullName}
+                      </option>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <option value="">{docTranslation.chooseOwner}</option>
+                  {listUser?.map((item) => {
+                    return (
+                      <option value={item?._id} key={item?._id}>
+                        {item?.fullName}
+                      </option>
+                    );
+                  })}
+                </>
+              )}
             </select>
+            <ErrorMessage
+              errors={errors}
+              name="owner"
+              render={({ message }) => <p className="err-mess">{message}</p>}
+            />
           </div>
           <br />
-          <label className="label_info">ThumbnailLink :</label>
+          <label className="label_info">{docTranslation.thumbnailLink} :</label>
           <input
             className="input_info"
             {...register("thumbnailLink", {
@@ -126,7 +159,7 @@ function UpdateDoc() {
             render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
-          <label className="label_info">Type :</label>
+          <label className="label_info">{docTranslation.type} :</label>
           <input
             type="number"
             className="input_info"
@@ -143,8 +176,7 @@ function UpdateDoc() {
           />
           <br />
           <button className="btn_add" onClick={handleSubmit}>
-            {" "}
-            Update
+            {docTranslation.update}
           </button>
         </form>
       </div>

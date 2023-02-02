@@ -42,6 +42,7 @@ export const docTranslation = {
     type : "Type",
     create: "Create Doc",
     update: "Update",
+    chooseOwner: "Chọn Owner"
 }
 export const userTrans = {
     addUser: "Thêm người dùng",
