@@ -72,7 +72,7 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
           <label>{positionTranslation.level}</label>
           <br />
           <select className="select_lever" onChange={(e) => setLevel(e.target.value)} required>
-            <option value={''} disabled>Choose lever</option>
+            <option value={''} disabled>{positionTranslation.choseLevel}</option>
             {leverPosition.map((lv) => {
               return (
                 <option key={lv?.id} value={lv?.name} selected={lv?.name === level ? true : false}>{lv.name}</option>
