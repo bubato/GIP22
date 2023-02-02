@@ -6,7 +6,7 @@ import { RiDeleteBin6Line, RiFolderAddLine } from "react-icons/ri";
 import { RxUpdate } from "react-icons/rx";
 import { list, remove } from "../../apis/position";
 import { successAlert } from "../../utils/alert";
-import {notification} from "../../translation/vn";
+import {noData, notification, positionTranslation} from "../../translation/vn";
 const ListPosition = ({ positionList, setPositionList }) => {
   const [loading, setLoading] = useState(false);
   const removePosition = async (id) => {
@@ -42,21 +42,20 @@ const ListPosition = ({ positionList, setPositionList }) => {
           <h1>Position</h1>
           <Link to={`/position/add`}>
             <button className="btn_add">
-              {" "}
-              <RiFolderAddLine /> Create
+              <RiFolderAddLine /> {positionTranslation.create}
             </button>
           </Link>
         </div>
         {positionList?.length === 0 ? (
-          <h1 className="fill">Không có chức vụ nào</h1>
+          <h1 className="fill">{noData.list}</h1>
         ) : (
           <table>
             <thead>
               <tr>
-                <th>Index</th>
-                <th>Position_Name</th>
-                <th>Position_Lever</th>
-                <th>Action</th>
+                <th>{positionTranslation.index}</th>
+                <th>{positionTranslation.name}</th>
+                <th>{positionTranslation.level}</th>
+                <th>{positionTranslation.action}</th>
               </tr>
             </thead>
             <tbody>
@@ -71,11 +70,11 @@ const ListPosition = ({ positionList, setPositionList }) => {
                         className="btn_delete"
                         onClick={() => removePosition(item?._id)}
                       >
-                        <RiDeleteBin6Line /> Delete
+                        <RiDeleteBin6Line /> {positionTranslation.delete}
                       </button>
                       <Link to={`/position/${item?._id}`}>
                         <button className="btn">
-                          <RxUpdate /> Update
+                          <RxUpdate /> {positionTranslation.update}
                         </button>
                       </Link>
                     </td>
@@ -92,7 +91,6 @@ const ListPosition = ({ positionList, setPositionList }) => {
 const Wrapper = styled.div`
   .container {
     width: 100%;
-    margin: 2rem;
   }
   .fill {
     margin: 2rem;
