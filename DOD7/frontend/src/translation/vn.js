@@ -19,7 +19,49 @@ export const notification = {
     deletePositionError:"Xóa Position không thành công",
     confirmDelete: "Bạn có chắc muốn xóa không ?"
 }
-export const validate = {
-    requiredInput:"Trường không được để trống",
-    minInput:"Tối thiểu 5 ký tự"
+export const noData = {
+    list: "Không có dữ liệu nào",
+    detail: "Không có dữ liệu với id này vui lòng thử lại"
 }
+export const positionTranslation = {
+    name: "Position Name",
+    index: "#",
+    level : "Position Level",
+    action: "Action",
+    create: "Create",
+    delete: "Delete",
+    update: "Update",
+}
+export const docTranslation = {
+    stt: "STT",
+    name: "Document Name",
+    link: "Link",
+    owner : "Owner",
+    thumbnailLink: "Thumbnail Link",
+    type : "Type",
+    create: "Create Doc",
+    update: "Update",
+    chooseOwner: "Chọn Owner"
+}
+export const userTrans = {
+    addUser: "Thêm người dùng",
+    updateUser: "Cập nhật người dùng",
+    title: "Danh sách người dùng",
+    titleAdd: "Thêm người dùng",
+    titleUpdate: "Thông tin người dùng",
+    stt: "STT",
+    fullName: "Full Name",
+    code: "Code",
+    gender: "Gender",
+    email: "Email",
+    position: "Position",
+    chosePosition: "Chọn Position",
+    telephone: "Telephone",
+    address: "Address",
+    male: "Nam",
+    female: "Nữ",
+  };
+export const validate = {
+  requiredInput: "Trường không được để trống",
+  minInput: "Tối thiểu 5 ký tự",
+};

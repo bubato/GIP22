@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { successAlert, errorAlert } from "../../utils/alert";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import {notification, validate} from "../../translation/vn"
+import { notification, validate, docTranslation } from "../../translation/vn";
 
 function AddDoc() {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function AddDoc() {
     <Wrapper>
       <div className="container">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className="label_info">Name :</label>
+          <label className="label_info">{docTranslation.name} :</label>
           <input
             className="input_info"
             {...register("name", {
@@ -54,7 +54,7 @@ function AddDoc() {
             render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
-          <label className="label_info">Link :</label>
+          <label className="label_info">{docTranslation.link} :</label>
           <input
             className="input_info"
             {...register("link", {
@@ -73,7 +73,7 @@ function AddDoc() {
           <br />
           <div>
             <label htmlFor="" className="label_info">
-              Owner :
+              {docTranslation.owner} :
             </label>
             <select
               name=""
@@ -81,7 +81,7 @@ function AddDoc() {
               className="input_info"
               {...register("owner", { required: validate.requiredInput })}
             >
-              <option value="">Chọn owner</option>
+              <option value="">{docTranslation.chooseOwner}</option>
               {listUser?.map((item) => {
                 return (
                   <option value={item?._id} key={item?._id}>
@@ -96,7 +96,7 @@ function AddDoc() {
               render={({ message }) => <p className="err-mess">{message}</p>}
             />
           </div>
-          <label className="label_info">Thumbnail Link :</label>
+          <label className="label_info">{docTranslation.thumbnailLink} :</label>
           <input
             className="input_info"
             {...register("thumbnailLink", {
@@ -113,7 +113,7 @@ function AddDoc() {
             render={({ message }) => <p className="err-mess">{message}</p>}
           />
           <br />
-          <label className="label_info">Type :</label>
+          <label className="label_info">{docTranslation.type} :</label>
           <input
             type="number"
             defaultValue={"1"}
@@ -132,7 +132,7 @@ function AddDoc() {
           <br />
           <button className="btn_add" onClick={handleSubmit}>
             {" "}
-            Create
+            {docTranslation.create}
           </button>
         </form>
       </div>
