@@ -31,6 +31,7 @@ export const positionTranslation = {
     create: "Create",
     delete: "Delete",
     update: "Update",
+    choseLevel: "Choose Level"
 }
 export const docTranslation = {
     stt: "STT",

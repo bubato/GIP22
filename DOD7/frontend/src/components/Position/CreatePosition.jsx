@@ -45,7 +45,7 @@ const CreatePosition = () => {
                     <label>{positionTranslation.level}</label>
                     <br />
                     <select className="select_lever" onChange={(e) => setLevel(e.target.value)}>
-                        <option value={''} disabled>Choose lever</option>
+                        <option value={''} disabled>{positionTranslation.choseLevel}</option>
                         {leverPosition.map((item) => {
                             return (
                                 <option key={item.id} value={item.name} >{item.name}</option>
