@@ -11,7 +11,11 @@ export const getUsers = async (req, res) => {
     })
       .limit(pageSize)
       .skip((pageIndex - 1) * pageSize);
-    res.json(users);
+    const length = await User.find();
+    res.json({
+      users,
+      length: length.length,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

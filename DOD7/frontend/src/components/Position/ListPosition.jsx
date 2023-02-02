@@ -6,7 +6,13 @@ import { RiDeleteBin6Line, RiFolderAddLine } from "react-icons/ri";
 import { RxUpdate } from "react-icons/rx";
 import { list, remove } from "../../apis/position";
 import { successAlert } from "../../utils/alert";
-import {noData, notification, positionTranslation} from "../../translation/vn";
+import {
+  noData,
+  notification,
+  positionTranslation,
+} from "../../translation/vn";
+import Pagination from "../common/Pagination";
+
 const ListPosition = ({ positionList, setPositionList }) => {
   const [loading, setLoading] = useState(false);
   const removePosition = async (id) => {
@@ -19,7 +25,7 @@ const ListPosition = ({ positionList, setPositionList }) => {
         (position) => position._id !== id
       );
       setPositionList(newPosition);
-      successAlert(notification.deletePositionSuccess)
+      successAlert(notification.deletePositionSuccess);
     }
   };
   const getListPosition = async () => {
@@ -49,40 +55,43 @@ const ListPosition = ({ positionList, setPositionList }) => {
         {positionList?.length === 0 ? (
           <h1 className="fill">{noData.list}</h1>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>{positionTranslation.index}</th>
-                <th>{positionTranslation.name}</th>
-                <th>{positionTranslation.level}</th>
-                <th>{positionTranslation.action}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {positionList?.map((item, index) => {
-                return (
-                  <tr key={item._id}>
-                    <td>{++index}</td>
-                    <td>{item?.name}</td>
-                    <td>{item?.level}</td>
-                    <td>
-                      <button
-                        className="btn_delete"
-                        onClick={() => removePosition(item?._id)}
-                      >
-                        <RiDeleteBin6Line /> {positionTranslation.delete}
-                      </button>
-                      <Link to={`/position/${item?._id}`}>
-                        <button className="btn">
-                          <RxUpdate /> {positionTranslation.update}
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>{positionTranslation.index}</th>
+                  <th>{positionTranslation.name}</th>
+                  <th>{positionTranslation.level}</th>
+                  <th>{positionTranslation.action}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {positionList?.map((item, index) => {
+                  return (
+                    <tr key={item._id}>
+                      <td>{++index}</td>
+                      <td>{item?.name}</td>
+                      <td>{item?.level}</td>
+                      <td>
+                        <button
+                          className="btn_delete"
+                          onClick={() => removePosition(item?._id)}
+                        >
+                          <RiDeleteBin6Line /> {positionTranslation.delete}
                         </button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        <Link to={`/position/${item?._id}`}>
+                          <button className="btn">
+                            <RxUpdate /> {positionTranslation.update}
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Pagination length={positionList?.length} />
+          </div>
         )}
       </div>
     </Wrapper>
