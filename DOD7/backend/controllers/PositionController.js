@@ -2,8 +2,16 @@ import Position from "../models/PositionModel.js";
 import User from "../models/UserModel.js";
 
 export const getPositions = async (req, res) => {
+    const keyword = req.query.keyword || "";
+    const pageOptions = {
+        pageIndex: parseInt(req.query.pageIndex) || 1,//0
+        pageSize: parseInt(req.query.pageSize) || 10 ,//10
+    }
     try {
-        const positions = await Position.find();
+        const positions = await Position.find({name: { $regex: ".*" + keyword + ".*" },})
+        .skip((pageOptions.pageIndex - 1) * pageOptions.pageSize) // bỏ qua ? sp
+        .limit(pageOptions.pageSize) // giới hạn ? sp
+        .exec();
         res.json(positions);
     } catch (error) {
         res.status(500).json({message: error.message});
