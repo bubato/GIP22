@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineDiff } from 'react-icons/ai';
 import { create } from '../../apis/position';
 import { errorAlert, successAlert } from '../../utils/alert';
-import { notification, validate } from '../../translation/vn';
+import { notification, positionTranslation, validate } from '../../translation/vn';
 const CreatePosition = () => {
     const navigate = useNavigate();
     const leverPosition = [
@@ -37,15 +37,15 @@ const CreatePosition = () => {
         <Wrapper>
             <div className="container">
                 <form>
-                    <label>Position_name</label>
+                    <label>{positionTranslation.name}</label>
                     <br />
                     <input type="text" className="input_name" minLength={5} required onChange={(e) => setName(e.target.value)} />
                     <p id='warning'></p>
                     <br />
-                    <label>Lever Position</label>
+                    <label>{positionTranslation.level}</label>
                     <br />
                     <select className="select_lever" onChange={(e) => setLevel(e.target.value)}>
-                        <option value={''} disabled>Choose lever</option>
+                        <option value={''} disabled>{positionTranslation.choseLevel}</option>
                         {leverPosition.map((item) => {
                             return (
                                 <option key={item.id} value={item.name} >{item.name}</option>
@@ -53,7 +53,7 @@ const CreatePosition = () => {
                         })}
                     </select>
                     <br />
-                    <button className="btn_update" onClick={handleSubmit}> <AiOutlineDiff /> Create</button>
+                    <button className="btn_update" onClick={handleSubmit}> <AiOutlineDiff /> {positionTranslation.create}</button>
                 </form>
             </div>
         </Wrapper>

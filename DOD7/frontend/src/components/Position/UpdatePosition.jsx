@@ -5,7 +5,7 @@ import { AiOutlineDiff } from 'react-icons/ai';
 import { readPosition, updatePosition } from '../../apis/position';
 import Loading from '../Loading';
 import { errorAlert, successAlert } from '../../utils/alert';
-import { notification, validate } from '../../translation/vn';
+import { notification, positionTranslation, validate } from '../../translation/vn';
 const UpdatePosition = ({ positionList, setPositionList }) => {
   const navigate = useNavigate();
 
@@ -26,9 +26,9 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
   useEffect(() => {
     const getPosition = async () => {
       setLoading(true)
-      const position = await readPosition(id)
-      if (position) {
-        setDataPosition(position.data)
+      const po = await readPosition(id)
+      if (po) {
+        setDataPosition(po.data)
       }
       setLoading(false)
     };
@@ -64,23 +64,23 @@ const UpdatePosition = ({ positionList, setPositionList }) => {
     <Wrapper>
       <div className="container">
         <form>
-          <label>Position_name</label>
+          <label>{positionTranslation.name}</label>
           <br />
           <input type="text" value={name} className="input_name" minLength={5} required onChange={(e) => setName(e.target.value)} />
           <p id='warning'></p>
           <br />
-          <label>Lever Position</label>
+          <label>{positionTranslation.level}</label>
           <br />
           <select className="select_lever" onChange={(e) => setLevel(e.target.value)} required>
-            <option value={''} disabled>Choose lever</option>
+            <option value={''} disabled>{positionTranslation.choseLevel}</option>
             {leverPosition.map((lv) => {
               return (
-                <option key={lv?.id} value={lv?.name} selected={lv?.name == level ? true : false}>{lv.name}</option>
+                <option key={lv?.id} value={lv?.name} selected={lv?.name === level ? true : false}>{lv.name}</option>
               )
             })}
           </select>
           <br />
-          <button className="btn" onClick={handleSubmit}> <AiOutlineDiff /> Update</button>
+          <button className="btn" onClick={handleSubmit}> <AiOutlineDiff /> {positionTranslation.update}</button>
         </form>
       </div>
     </Wrapper>
