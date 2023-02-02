@@ -8,6 +8,7 @@ import { notification } from "../../translation/vn";
 
 import { createUser, updateUser } from "../../apis/user";
 import { list } from "../../apis/position";
+import { userTrans } from "../../translation/vn";
 function UserInput({ type, user }) {
   const { register, handleSubmit, reset } = useForm();
 
@@ -15,8 +16,8 @@ function UserInput({ type, user }) {
 
   const navigate = useNavigate();
   const arrSex = [
-    { id: 1, value: "Nam" },
-    { id: 2, value: "Nữ" },
+    { id: 1, value: userTrans.male },
+    { id: 2, value: userTrans.female },
   ];
 
   const onSubmit = async (data) => {
@@ -54,13 +55,17 @@ function UserInput({ type, user }) {
 
   return (
     <Wrapper>
-      <h1>{type === "new" ? "Add new user" : "Detail user"}</h1>
+      <h1>{type === "new" ? userTrans.titleAdd : userTrans.titleUpdate}</h1>
       <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <Input label="Name" value="fullName" register={register} />
-        <Input label="Code" value="code" register={register} />
+        <Input
+          label={userTrans.fullName}
+          value="fullName"
+          register={register}
+        />
+        <Input label={userTrans.code} value="code" register={register} />
         <div>
           <label htmlFor="" className="label_info">
-            Position :
+            {userTrans.position}
           </label>
           <select
             name=""
@@ -71,7 +76,7 @@ function UserInput({ type, user }) {
           >
             {type === "new" && (
               <option value="" selected={true}>
-                Choose position
+                {userTrans.chosePosition}
               </option>
             )}
             {listPosition?.map((item) => {
@@ -88,17 +93,21 @@ function UserInput({ type, user }) {
           </select>
         </div>
         <Input
-          label="Email"
+          label={userTrans.email}
           value="email"
           register={register}
           typeInput="email"
         />
-        <Input label="Telephone" value="telephone" register={register} />
-        <Input label="Address" value="address" register={register} />
+        <Input
+          label={userTrans.telephone}
+          value="telephone"
+          register={register}
+        />
+        <Input label={userTrans.address} value="address" register={register} />
 
         <div>
           <label htmlFor="" className="label_info">
-            Gender :
+            {userTrans.gender}
           </label>
           <select
             name=""
@@ -117,7 +126,7 @@ function UserInput({ type, user }) {
           </select>
         </div>
         <button className="btn_add">
-          {type === "new" ? "Create new user" : "Update user"}
+          {type === "new" ? userTrans.addUser : userTrans.updateUser}
         </button>
       </form>
     </Wrapper>

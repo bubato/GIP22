@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import BtnRD from "./BtnRD";
 import Loading from "../Loading";
-
+import { userTrans, noData } from "../../translation/vn";
 import { getListUser } from "../../apis/user";
 function UserList() {
   const [data, setData] = useState([]);
@@ -26,22 +26,21 @@ function UserList() {
   return (
     <Wrapper>
       <div className="heading">
-        <h1 className="title">Users</h1>
+        <h1 className="title">{userTrans.title}</h1>
         <Link to="/users/new" className="btn btn_add">
-          Add new user
+          {userTrans.addUser}
         </Link>
       </div>
       {data?.length === 0 ? (
-        <h2>List user is empty😥</h2>
+        <h2>{noData.list}😥</h2>
       ) : (
         <div className="list">
           <table>
             <tr>
-              <th>STT</th>
-              <th>Full Name</th>
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Position</th>
+              <th>{userTrans.stt}</th>
+              <th>{userTrans.fullName}</th>
+              <th>{userTrans.gender}</th>
+              <th>{userTrans.position}</th>
             </tr>
             {data?.map((item, index) => {
               return (
