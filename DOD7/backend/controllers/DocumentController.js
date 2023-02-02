@@ -7,7 +7,7 @@ export const getDocuments = async (req, res) => {
         const pageSize = req.query.pageSize || 10;
         const pageIndex = req.query.pageIndex || 1;
         const documents = 
-            await Document.find({fullName: { $regex: '.*' + keyword + '.*' } })
+            await Document.find({name: { $regex: '.*' + keyword + '.*' } })
             .limit(pageSize)
             .skip((pageIndex - 1) * pageSize)
         res.json(documents);
