@@ -61,6 +61,6 @@ export const userTrans = {
     female: "Nữ",
   };
 export const validate = {
-    requiredInput:"Trường không được để trống",
-    minInput:"Tối thiểu 5 ký tự"
-}
+  requiredInput: "Trường không được để trống",
+  minInput: "Tối thiểu 5 ký tự",
+};

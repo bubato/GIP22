@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import UserInput from "./UserInput";
 import Loading from "../Loading";
 import { getUser } from "../../apis/user";
+import { noData } from "../../translation/vn";
 function UserDetail({ type }) {
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -22,7 +23,7 @@ function UserDetail({ type }) {
   }
 
   if (!data) {
-    return <h2 style={{ padding: "2rem" }}>Cant find user with id 😥</h2>;
+    return <h2 style={{ padding: "2rem" }}>{noData.detail} 😥</h2>;
   }
 
   return <UserInput type={type} user={data} id={id} />;
