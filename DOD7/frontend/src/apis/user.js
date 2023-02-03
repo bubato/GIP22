@@ -1,7 +1,7 @@
 import instance from "./index";
 
-export const getListUser = async () => {
-  return instance.get("users");
+export const getListUser = async (pageIndex, pageSize) => {
+  return instance.get(`users?pageIndex=${pageIndex}&pageSize=${pageSize}`);
 };
 export const createUser = async (user) => {
   return instance.post("users", user);
