@@ -12,19 +12,20 @@ function ListDoc() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5)
   const [length, setLength] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const getData = async () => {
     setLoading(true);
-    const res = await list(page, 5);
+    const res = await list(page, pageSize);
     setData(res?.data?.documents);
     setLoading(false);
     setLength(res?.data?.length);
   };
   useEffect(() => {
     getData();
-  }, [page]);
+  }, [page, pageSize]);
   const removeListDocs = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const cf = confirm(notification.confirmDelete);
@@ -38,10 +39,10 @@ function ListDoc() {
   useEffect(() => {
     setSearchParams({
       pageIndex: page,
-      pageSize: 5,
+      pageSize: pageSize,
     });
     // eslint-disable-next-line
-  }, [page]);
+  }, [page, pageSize]);
   if (loading) {
     return <Loading />;
   }
@@ -70,17 +71,17 @@ function ListDoc() {
               {data?.map((item, index) => {
                 return (
                   <tr key={item?.id}>
-                    <td>{(page - 1) * 5 + (index + 1)}</td>
+                    <td>{(page - 1) * pageSize + (index + 1)}</td>
                     <td>{item?.name}</td>
                     <td>{item?.link}</td>
                     <td>{item?.owner?.fullName}</td>
                     <td>{item?.thumbnailLink}</td>
                     <td>{item?.type}</td>
-                    <button onClick={() => removeListDocs(item?._id)}>
+                    <button className="btn_click" onClick={() => removeListDocs(item?._id)}>
                       <AiOutlineDelete />
                     </button>
                     <Link to={`/docs/${item?._id}`}>
-                      <button>
+                      <button className="btn_click">
                         <AiOutlineEdit />
                       </button>
                     </Link>
@@ -89,11 +90,15 @@ function ListDoc() {
               })}
             </tbody>
           </table>
-
+          <p>
+            Current {page} / {Math.ceil(length / pageSize)}
+          </p>
           <Pagination
-            maxPage={Math.ceil(length / 5)}
+            maxPage={Math.ceil(length / pageSize)}
             setPage={setPage}
             page={page}
+            setPageSize={setPageSize}
+            pageSize={pageSize}
           />
         </>
       )}
@@ -131,7 +136,7 @@ const Wrapper = styled.div`
     right: 50px;
     top: 30px;
   }
-  button {
+  .btn_click {
     margin: 0 10px;
     padding: 5px;
     min-width: 30px;
@@ -141,6 +146,12 @@ const Wrapper = styled.div`
     border: none;
     border-radius: 2px;
     cursor: pointer;
+  }
+  p {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: brown;
+    font-weight: bold;
   }
 `;
 export default ListDoc;

@@ -7,7 +7,7 @@ import { removeUser } from "../../apis/user";
 import { userTrans, noData, notification } from "../../translation/vn";
 import { successAlert, errorAlert } from "../../utils/alert";
 
-function UserTable({ loading, data = [], setData, page }) {
+function UserTable({pageSize, loading, data = [], setData, page }) {
   const handleDelete = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const cf = confirm(notification.confirmDelete);
@@ -51,7 +51,7 @@ function UserTable({ loading, data = [], setData, page }) {
               {data?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td>{(page - 1) * 5 + (index + 1)}</td>
+                    <td>{(page - 1) * pageSize + (index + 1)}</td>
                     <td>{item?.fullName}</td>
                     <td>{item?.gender}</td>
                     <td>{item?.email}</td>
