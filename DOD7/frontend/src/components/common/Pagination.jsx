@@ -62,5 +62,8 @@ const PaginationWrapper = styled.div`
     cursor: not-allowed;
     pointer-events: none;
   }
+  .red {
+    color: red;
+  }
 `;
 export default Pagination;
