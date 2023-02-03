@@ -1,7 +1,7 @@
 import instance from "./index";
 
-export const list = async()=>{
-    return instance.get("position")
+export const list = async(pageIndex,pageSize)=>{
+    return instance.get(`position?pageIndex=${pageIndex}&pageSize=${pageSize}`)
 }
 export const create = async (position)=>{
     return instance.post("position/add",position)

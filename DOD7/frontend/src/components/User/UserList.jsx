@@ -9,35 +9,38 @@ function UserList() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5)
   const [length, setLength] = useState(0);
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const res = await getListUser(page, 5);
+      const res = await getListUser(page, pageSize);
       setData(res?.data?.users);
       setLength(res?.data?.length);
       setLoading(false);
     }
     fetchData();
-  }, [page]);
+  }, [page,pageSize]);
 
   useEffect(() => {
     setSearchParams({
       pageIndex: page,
-      pageSize: 5,
+      pageSize: pageSize,
     });
     // eslint-disable-next-line
-  }, [page]);
+  }, [page,pageSize]);
   return (
     <Wrapper>
-      <UserTable loading={loading} data={data} setData={setData} page={page} />
+      <UserTable pageSize={pageSize} loading={loading} data={data} setData={setData} page={page} />
       <p>
-        Current {page} / {Math.ceil(length / 5)}
+        Current {page} / {Math.ceil(length / pageSize)}
       </p>
       <Pagination
-        maxPage={Math.ceil(length / 5)}
+        maxPage={Math.ceil(length / pageSize)}
         setPage={setPage}
         page={page}
+        setPageSize={setPageSize}
+        pageSize={pageSize}
       />
     </Wrapper>
   );

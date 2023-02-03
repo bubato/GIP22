@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../Loading";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { RiDeleteBin6Line, RiFolderAddLine } from "react-icons/ri";
 import { RxUpdate } from "react-icons/rx";
 import { list, remove } from "../../apis/position";
@@ -14,7 +14,11 @@ import {
 import Pagination from "../common/Pagination";
 
 const ListPosition = ({ positionList, setPositionList }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(5)
+  const [length, setLength] = useState(0);
   const removePosition = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const cf = confirm(notification.confirmDelete);
@@ -30,13 +34,18 @@ const ListPosition = ({ positionList, setPositionList }) => {
   };
   const getListPosition = async () => {
     setLoading(true);
-    const res = await list();
-    setPositionList(res.data);
+    const res = await list(page,pageSize);
+    setPositionList(res.data.positions);
+    setLength(res.data.length)
     setLoading(false);
   };
   useEffect(() => {
     getListPosition();
-  }, []);
+    setSearchParams({
+      pageIndex: page,
+      pageSize: pageSize,
+    });
+  }, [page,pageSize]);
 
   if (loading === true) {
     return <Loading />;
@@ -69,7 +78,7 @@ const ListPosition = ({ positionList, setPositionList }) => {
                 {positionList?.map((item, index) => {
                   return (
                     <tr key={item._id}>
-                      <td>{++index}</td>
+                      <td>{(page -1 )*pageSize +index +1}</td>
                       <td>{item?.name}</td>
                       <td>{item?.level}</td>
                       <td>
@@ -90,7 +99,16 @@ const ListPosition = ({ positionList, setPositionList }) => {
                 })}
               </tbody>
             </table>
-            <Pagination length={positionList?.length} />
+            <p>
+              Current {page} / {Math.ceil(length / pageSize)}
+            </p>
+            <Pagination
+              maxPage={Math.ceil(length / pageSize)}
+              setPage={setPage}
+              page={page}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
+            />
           </div>
         )}
       </div>
@@ -133,6 +151,13 @@ const Wrapper = styled.div`
   }
   .btn_delete {
     margin-right: 2rem;
+  }
+  p {
+    text-align: center;
+    margin-top:1rem;
+    margin-bottom: 1rem;
+    color: brown;
+    font-weight: bold;
   }
 `;
 export default ListPosition;
