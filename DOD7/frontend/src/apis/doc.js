@@ -1,7 +1,7 @@
 import instance from "./index";
 
-export const list = async()=>{
-    return instance.get("document")
+export const list = async(pageIndex, pageSize)=>{
+    return instance.get(`document?pageIndex=${pageIndex}&pageSize=${pageSize}`)
 }
 export const create = async (doc)=>{
     return instance.post("document/",doc)
