@@ -4,13 +4,14 @@ import User from "../models/UserModel.js";
 export const getDocuments = async (req, res) => {
     try {
         const keyword = req.query.keyword || "";
-        const pageSize = req.query.pageSize || 10;
+        const pageSize = req.query.pageSize || 5;
         const pageIndex = req.query.pageIndex || 1;
+        const length = await Document.find();
         const documents = 
             await Document.find({name: { $regex: '.*' + keyword + '.*' } })
             .limit(pageSize)
             .skip((pageIndex - 1) * pageSize)
-        res.json(documents);
+        res.json({documents, length : length.length});
     } catch (error) {
         res.status(500).json({message: error.message});
     }
