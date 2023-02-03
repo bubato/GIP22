@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { list, remove } from "../../apis/doc";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { successAlert } from "../../utils/alert";
 import Loading from "../Loading";
 import { notification, docTranslation, noData } from "../../translation/vn";
+import Pagination from "../common/Pagination";
 
 function ListDoc() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [length, setLength] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const getData = async () => {
     setLoading(true);
-    const res = await list();
-    setData(res?.data);
+    const res = await list(page, 5);
+    setData(res?.data?.documents);
     setLoading(false);
+    setLength(res?.data?.length);
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [page]);
   const removeListDocs = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const cf = confirm(notification.confirmDelete);
@@ -29,6 +35,13 @@ function ListDoc() {
       successAlert(notification.deleteDocSuccess);
     }
   };
+  useEffect(() => {
+    setSearchParams({
+      pageIndex: page,
+      pageSize: 5,
+    });
+    // eslint-disable-next-line
+  }, [page]);
   if (loading) {
     return <Loading />;
   }
@@ -37,44 +50,58 @@ function ListDoc() {
       <Link to={`/docs/add`} className="add-btn">
         {docTranslation.create}
       </Link>
+
       {data.length === 0 ? (
         <h1>{noData.list}</h1>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>{docTranslation.stt}</th>
-              <th>{docTranslation.name}</th>
-              <th>{docTranslation.link}</th>
-              <th>{docTranslation.owner}</th>
-              <th>{docTranslation.thumbnailLink}</th>
-              <th>{docTranslation.type}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((item, index) => {
-              return (
-                <tr key={item?.id}>
-                  <td>{index + 1}</td>
-                  <td>{item?.name}</td>
-                  <td>{item?.link}</td>
-                  <td>{item?.owner?.fullName}</td>
-                  <td>{item?.thumbnailLink}</td>
-                  <td>{item?.type}</td>
-                  <button onClick={() => removeListDocs(item?._id)}>
-                    <AiOutlineDelete />
-                  </button>
-                  <Link to={`/docs/${item?._id}`}>
-                    <button>
-                      <AiOutlineEdit />
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>{docTranslation.stt}</th>
+                <th>{docTranslation.name}</th>
+                <th>{docTranslation.link}</th>
+                <th>{docTranslation.owner}</th>
+                <th>{docTranslation.thumbnailLink}</th>
+                <th>{docTranslation.type}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((item, index) => {
+                return (
+                  <tr key={item?.id}>
+                    <td>{(page - 1) * 5 + (index + 1)}</td>
+                    <td>{item?.name}</td>
+                    <td>{item?.link}</td>
+                    <td>{item?.owner?.fullName}</td>
+                    <td>{item?.thumbnailLink}</td>
+                    <td>{item?.type}</td>
+                    <button onClick={() => removeListDocs(item?._id)}>
+                      <AiOutlineDelete />
                     </button>
-                  </Link>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <Link to={`/docs/${item?._id}`}>
+                      <button>
+                        <AiOutlineEdit />
+                      </button>
+                    </Link>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          <Pagination
+            maxPage={Math.ceil(length / 5)}
+            setPage={setPage}
+            page={page}
+          />
+        </>
       )}
+      {/* <Pagination
+        maxPage={Math.ceil(length / 5)}
+        setPage={setPage}
+        page={page}
+      /> */}
     </Wrapper>
   );
 }
@@ -86,11 +113,12 @@ const Wrapper = styled.div`
   padding: 80px 50px;
   position: relative;
   table {
-    ${"" /* margin: 0 50px; */}
     border: 1px solid #000;
     min-width: 80%;
     margin-top: 15px;
+    margin-bottom: 1rem;
   }
+
   .add-btn {
     padding: 10px;
     margin: 10px 0;
