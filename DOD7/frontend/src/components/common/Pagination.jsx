@@ -13,11 +13,11 @@ function Pagination({ maxPage, setPage, page }) {
       <button className="box" onClick={() => setPage(1)}>
         1
       </button>
-      <button className={page < 4 ? `none` : "box"}>...</button>
+      <button className={page < 4 ? `none` : "box dot"}>...</button>
 
       <SwitchPageBox maxPage={maxPage} setPage={setPage} page={page} />
 
-      <button className={page >= maxPage - 2 ? `none` : "box"}>...</button>
+      <button className={page >= maxPage - 2 ? `none` : "box dot"}>...</button>
 
       <button className="box" onClick={() => setPage(maxPage)}>
         {maxPage}
@@ -57,6 +57,10 @@ const PaginationWrapper = styled.div`
     pointer-events: none;
     background-color: #27272a;
     color: #ccc;
+  }
+  .dot {
+    cursor: not-allowed;
+    pointer-events: none;
   }
 `;
 export default Pagination;
