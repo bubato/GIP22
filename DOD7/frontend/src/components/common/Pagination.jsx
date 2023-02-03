@@ -2,6 +2,7 @@ import React from "react";
 import SwitchPageBox from "./SwitchPageBox";
 import styled from "styled-components";
 function Pagination({ maxPage, setPage, page }) {
+  const items = [2, 3, 4];
   return (
     <PaginationWrapper>
       <button
@@ -10,18 +11,33 @@ function Pagination({ maxPage, setPage, page }) {
       >
         Prev
       </button>
-      <button className="box" onClick={() => setPage(1)}>
+      <button
+        className={page === 1 ? "box active" : "box"}
+        onClick={() => setPage(1)}
+      >
         1
       </button>
-      <button className={page < 4 ? `none` : "box dot"}>...</button>
-
-      <SwitchPageBox maxPage={maxPage} setPage={setPage} page={page} />
-
-      <button className={page >= maxPage - 2 ? `none` : "box dot"}>...</button>
-
-      <button className="box" onClick={() => setPage(maxPage)}>
-        {maxPage}
+      <button className={maxPage <= 6 || page < 4 ? `none` : "box dot"}>
+        ...
       </button>
+      {maxPage > 2 && (
+        <SwitchPageBox maxPage={maxPage} setPage={setPage} page={page} />
+      )}
+
+      <button
+        className={maxPage <= 6 || page >= maxPage - 2 ? `none` : "box dot"}
+      >
+        ...
+      </button>
+      {maxPage > 1 && (
+        <button
+          className={page === maxPage ? "active box" : "box"}
+          onClick={() => setPage(maxPage)}
+        >
+          {maxPage}
+        </button>
+      )}
+
       <button
         className={page >= maxPage ? "box disabled" : "box"}
         onClick={() => setPage(page + 1)}
@@ -61,6 +77,12 @@ const PaginationWrapper = styled.div`
   .dot {
     cursor: not-allowed;
     pointer-events: none;
+  }
+  .active {
+    background-color: #435ebe;
+  }
+  .none {
+    display: none;
   }
 `;
 export default Pagination;
